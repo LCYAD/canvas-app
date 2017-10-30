@@ -48,12 +48,16 @@ class PaintFunction{
     onMouseEnter(){}
 }
 
+// slider bar 
 function showValue(newValue)
 {
-	document.getElementById("range").innerHTML=newValue;
-}
+	document.getElementById("thickness").innerHTML=newValue;
+};
 
-function showValue(newValue)
+function showValue2(newValue)
 {
-	document.getElementById("opa").innerHTML=newValue;
-}
+	document.getElementById("thickness").innerHTML=newValue;
+};
+
+
+

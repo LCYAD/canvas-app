@@ -2,10 +2,11 @@
 .canvas{
     border:1px black dotted;
     position:absolute;
-    top:80px;
+    top:40px;
     bottom:0px;
-    left:0px;
+    left:100px;
     right:0px;
+    background-color: white;
 }
 
 #canvas-draft{
@@ -14,41 +15,52 @@
 body{
     overflow:hidden;
 }
-#canvas-container{
-    height:auto;
-    width: auto;
-}  
 
-.buttons{
-    position:absolute;
-    top:80px;
-    bottom:0px;
-    left:1034px;
-    right:0px;
+.panel .btn{
+width: 98px;
 }
 
-.tool-bar2{
-    border: 1px red dotted;
-    position: absolute;
-    width: 350;
-    height: 250;
-    top: 500;
-    left: 1034;
-    bottom:0;
-    right:0;
-    padding: 0;
-    margin: 0;
-}
+
+
+
 
 #nav-bar{
     background-color: black;
     background: linear-gradient(60deg, rgb(48, 49, 53), rgb(173, 168, 168));
+    margin-bottom: 0;
 }
 
-#button-right{
-    float: right;
 
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #e6e6e6;
 }
-bod{
-    background-color: gray;
+
+
+#color-input {
+  display: none;
+}
+#color-label {
+  margin-left: 0px;
+  position: absolute;
+  height: 30px;
+  width: 98px;
+} 
+#color-input:checked ~ #color-picker {
+  opacity: 1;
+}
+#color-picker {
+  position: absolute;
+  left: 100px; 
+  background-color: white;
+  height: 180px;
+  width: 200px;
+  border: solid 1px #ccc;
+  opacity: 0;
+  padding: 0.5%;
+}
+canvas:hover {
+  cursor: crosshair;
 }

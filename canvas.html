@@ -38,33 +38,82 @@
             </nav>
             <div id="content-canvas">
             <div id="canvas-container">
-                <canvas id="canvas-real" class="canvas" width='1024px' height='640px'></canvas>
-                <canvas id="canvas-draft" class="canvas" width='1024px' height='640px'></canvas>
+                <canvas id="canvas-real" class="canvas" width='1000px' height='600px' style="left:100px;top:50px"></canvas>
+                <canvas id="canvas-draft" class="canvas" width='1000px' height='600px' style="left:100px;top:50px"></canvas>
             </div>
+        </div>
                 
-            <div class="buttons">
-                   <div class="btn-group-vertical">
-                <span class="btn btn-primary fa fa-square" id="drawing-rectangle" > Drawing Rectangle</span>
-                <span class="btn btn-info fa fa-paint-brush" id="drawing-line" > Drawing Line</span>
-                <span class="btn btn-info " id="#" > Function3</span>
-                <span class="btn btn-info " id="#" > Function4</span>
-                <span class="btn btn-info " id="#" > Function5</span>
-            </div>
-            </div>
+            <div class="buttons panel">
+                <div class="panel-content"  style="top:50px;left:0px;width:98px;height:600">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                    <span class="btn btn-info fa fa-square" id="drawing-rectangle" style="width:98px"> Drawing Rectangle</span>
+                            </td>
+                        </tr>
+<tr>
+    <td>
+            <span class="btn btn-info fa fa-paint-brush" id="drawing-line" style="top:50px;left:0px;width:98px"> Drawing Line</span>
+    </td>
+</tr>
 
-            <div class="container tool-bar2 text-center">
+<tr>
+    <td>
+            <span class="btn btn-info " id="#" > Function3</span>
+            
+    </td>
+</tr>
+<tr>
+    <td> <span class="btn btn-info " id="#" > Function4</span>
+        </td>
+    </tr>  
+                
+    <tr>
+        <td><span class="btn btn-info " id="#" > Function5</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                    <label for="color-input" id="color-label" style="background-color: red;width:98px"></label>
+                    <input type="checkbox" id="color-input" checked></input>
+                    
+                    
+                 <div id="color-picker">
+                    <canvas id="color-block" height="150" width="150"></canvas>
+                    <canvas id="color-strip" height="150" width="30"></canvas>
+                </div>
+            </td>
+        </tr>
+            </tbody>
+            </table>    
+            </div>
+            </div>
+        
+            <div class="container tool-bar2 text-center" style="display:block">
                     <span id="bar-caption">Thickness</span>
                     <input type="range" min="0" max="50" value="11" step="2" onchange="showValue(this.value)"/>
-                    <span id="range">11</span><span>px</span>
+                    <span id="thickness">11</span><span>px</span>
                         <br>
                         <br>
                 
                     <span id="bar-caption">Opacity</span>
-                    <input type="range" min="0" max="100" value="100" step="5" onchange="showValue(this.value)"/>
+                    <input type="range" min="0" max="100" value="100" step="10" onchange="showValue2(this.value)"/>
                     <span id="opa">100</span><span>%</span>
 
             </div>
             
+
+
+
+            <label for="color-input" id="color-label" style="background-color: red"></label>
+            <input type="checkbox" id="color-input" checked></input>
+            
+            <div id="color-picker" style="display:none">
+              <canvas id="color-block" height="150" width="150"></canvas>
+              <canvas id="color-strip" height="150" width="30"></canvas>
+            </div>
         
             <script type='text/javascript' src="https://code.jquery.com/jquery-3.2.1.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
@@ -72,6 +121,7 @@
             <script type='text/javascript' src="canvas-common.js"></script>
             <script type='text/javascript' src="drawing-line.js"></script>
             <script type='text/javascript' src="drawing-rectangle.js"></script>
+            <script type="text/javascript" src="color-picker.js"></script>
             <script type='text/javascript'>
                 $('#drawing-rectangle').click(()=>{
                     currentFunction = new DrawingRectangle(contextReal,contextDraft);
