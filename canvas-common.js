@@ -59,5 +59,9 @@ function showValue2(newValue)
 	document.getElementById("thickness").innerHTML=newValue;
 };
 
-
-
+//color-picker toggle
+$('div#color-picker').toggle();
+$("#color-input" ).click(function() {
+    $( "div#color-picker" ).toggle();
+  });
+ 
