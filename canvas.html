@@ -1,0 +1,85 @@
+<html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" 
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+            <link href="style.css" rel="stylesheet" type='text/css'>
+        </head>
+        <body>
+            <nav class="navbar navbar-light" id="nav-bar">
+                    <div class="btn-group" role="group">
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group" role="group" aria-label="First group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        2D Graphic
+                                      </button>
+                                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <a class="dropdown-item" href="#">3D Graphic</a>
+                                      </div>
+                          <button type="button" class="btn btn-secondary">point size 1</button>
+                          <button type="button" class="btn btn-secondary">point size 2</button>
+                          <button type="button" class="btn btn-secondary">point size 3</button>
+                        </div>
+                    </div>
+                </div>
+                        <div class="btn-group" role="group" aria-label="First group" id="button-right">
+                                <button type="button" class="btn btn-default">undo</button>
+                                <button type="button" class="btn btn-default">redo</button>
+                                <button type="button" class="btn btn-default">save</button>
+                        </div>
+                
+                    
+
+                        
+            </nav>
+            <div id="content-canvas">
+            <div id="canvas-container">
+                <canvas id="canvas-real" class="canvas" width='1024px' height='640px'></canvas>
+                <canvas id="canvas-draft" class="canvas" width='1024px' height='640px'></canvas>
+            </div>
+                
+            <div class="buttons">
+                   <div class="btn-group-vertical">
+                <span class="btn btn-primary fa fa-square" id="drawing-rectangle" > Drawing Rectangle</span>
+                <span class="btn btn-info fa fa-paint-brush" id="drawing-line" > Drawing Line</span>
+                <span class="btn btn-info " id="#" > Function3</span>
+                <span class="btn btn-info " id="#" > Function4</span>
+                <span class="btn btn-info " id="#" > Function5</span>
+            </div>
+            </div>
+
+            <div class="container tool-bar2 text-center">
+                    <span id="bar-caption">Thickness</span>
+                    <input type="range" min="0" max="50" value="11" step="2" onchange="showValue(this.value)"/>
+                    <span id="range">11</span><span>px</span>
+                        <br>
+                        <br>
+                
+                    <span id="bar-caption">Opacity</span>
+                    <input type="range" min="0" max="100" value="100" step="5" onchange="showValue(this.value)"/>
+                    <span id="opa">100</span><span>%</span>
+
+            </div>
+            
+        
+            <script type='text/javascript' src="https://code.jquery.com/jquery-3.2.1.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+            <script type='text/javascript' src="canvas-common.js"></script>
+            <script type='text/javascript' src="drawing-line.js"></script>
+            <script type='text/javascript' src="drawing-rectangle.js"></script>
+            <script type='text/javascript'>
+                $('#drawing-rectangle').click(()=>{
+                    currentFunction = new DrawingRectangle(contextReal,contextDraft);
+                });
+                $('#drawing-line').click(()=>{
+                    currentFunction = new DrawingLine(contextReal,contextDraft);
+                });
+                currentFunction = new DrawingRectangle(contextReal,contextDraft);    
+            </script>
+        </body>
+    </html>
