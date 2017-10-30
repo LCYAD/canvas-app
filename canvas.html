@@ -91,7 +91,7 @@
             </div>
             </div>
         
-            <div class="container tool-bar2 text-center" style="display:block">
+            <div class="container tool-bar2 text-center" style="display:none">
                     <span id="bar-caption">Thickness</span>
                     <input type="range" min="0" max="50" value="11" step="2" onchange="showValue(this.value)"/>
                     <span id="thickness">11</span><span>px</span>
@@ -107,13 +107,7 @@
 
 
 
-            <label for="color-input" id="color-label" style="background-color: red"></label>
-            <input type="checkbox" id="color-input" checked></input>
             
-            <div id="color-picker">
-              <canvas id="color-block" height="150" width="150"></canvas>
-              <canvas id="color-strip" height="150" width="30"></canvas>
-            </div>
         
             <script type='text/javascript' src="https://code.jquery.com/jquery-3.2.1.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
