@@ -106,6 +106,8 @@
         <span class="btn btn-info fa fa-paint-brush" id="bezier-curve" > 4 pt curve</span>
         <span class="btn btn-primary fa fa-square" id="drawing-circle">Circle</span>
         <span class="btn btn-primary fa fa-square" id="drawing-circle2">Circle2</span>
+        <span class="btn btn-success fa fa-square" id="nib-boardedge">Board Edge</span>
+        <span class="btn btn-success fa fa-square" id="nib-eedge">E Edge</span>        
         <span class="btn btn-info" id="eraser" >Erase</span>
         <span class="btn btn-info" id="clear" >Clear Screen</span>
         <!--<span class="btn btn-info" id="finish" >Finish</span>-->
@@ -138,6 +140,8 @@
     <script type='text/javascript' src="drawing-rectangle2.js"></script>
     <script type='text/javascript' src="drawing-circle.js"></script>
     <script type='text/javascript' src="drawing-circle2.js"></script>
+    <script type='text/javascript' src="nib-boardEdge.js"></script>
+    <script type='text/javascript' src="nib-eEdge.js"></script>
     <script type='text/javascript' src="eraser.js"></script>
     <script type='text/javascript'>
         currentFunction = new DrawingLine(contextReal,contextDraft);
@@ -170,6 +174,12 @@
         });
         $('#drawing-circle2').click(()=>{
             currentFunction = new DrawingCircle2(contextReal,contextDraft);
+        });
+        $('#nib-boardedge').click(()=>{
+            currentFunction = new BoardEdge(contextReal,contextDraft);
+        });
+        $('#nib-eedge').click(()=>{
+            currentFunction = new EEdge(contextReal,contextDraft);
         });
         $('#eraser').click(()=>{
             currentFunction = new Eraser(contextReal,contextDraft);
