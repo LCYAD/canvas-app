@@ -16,7 +16,7 @@ function rotateAndPaintImage ( context, image, angleInRad , positionX, positionY
     context.translate( -positionX, -positionY );
   }
 
-class ENib extends PaintFunction{
+class EEdge extends PaintFunction{
 
     constructor(contextReal){
         super();
