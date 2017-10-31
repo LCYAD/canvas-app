@@ -1,8 +1,9 @@
 class DrawingCircle2 extends PaintFunction{
-    constructor(contextReal,contextDraft){
+    constructor(contextReal,contextDraft, canvas_log){
         super();
         this.contextReal = contextReal;
         this.contextDraft = contextDraft;
+        this.canvas_log = canvas_log;
         this.endpt = {x:0, y:0};
         this.prevCoord = {x:0, y:0};
         this.cp_size = 20;  //setting standard size of the control points
@@ -16,6 +17,7 @@ class DrawingCircle2 extends PaintFunction{
         this.border = true;
         this.fill = false;
         this.move = false;
+        this.print = false;
     }
     
     onMouseDown(coord,event){
@@ -74,6 +76,7 @@ class DrawingCircle2 extends PaintFunction{
             if (!this.phase_adjust){
                 this.phase_adjust = true;
                 $('#cancel').show();
+                $('#print').show();
             }
             this.prevCoord = {x:coord[0], y:coord[1]};
             this.createCP();
@@ -91,6 +94,7 @@ class DrawingCircle2 extends PaintFunction{
             this.contextReal.arc(this.centre_pt.x, this.centre_pt.y, this.radius, 0, 2*Math.PI);
             if (this.border){this.contextReal.stroke();} //draw border if it is choosed
             if (this.fill){this.contextReal.fill();} //fill rect if it is choosed
+            this.canvas_log.saveState();
              //reset all parameter
              this.finish = this.phase_adjust = this.move = false;
              this.radius = this.dragpt = 0;
@@ -98,6 +102,7 @@ class DrawingCircle2 extends PaintFunction{
              this.fill = false;
              //hide cancel and rotation panel
              $('#cancel').hide();
+             $('#print').hide();
         }
         
     }
@@ -117,6 +122,7 @@ class DrawingCircle2 extends PaintFunction{
         this.fill = false;
         this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
         $('#cancel').hide();
+        $('#print').hide();
     }
     onChange(){
         if (this.phase_adjust){
@@ -127,6 +133,25 @@ class DrawingCircle2 extends PaintFunction{
             //redraw curve
             this.drawCircle();
         }
+    }
+    onPrint(){
+        //print a copy onto the real canvas and move the curve and control points to the right and down 10px
+        this.contextReal.beginPath();
+        this.contextReal.arc(this.centre_pt.x, this.centre_pt.y, this.radius, 0, 2*Math.PI);
+        if (this.border){this.contextReal.stroke();} //draw border if it is choosed
+        if (this.fill){this.contextReal.fill();} //fill rect if it is choosed
+        this.canvas_log.saveState();
+
+        //clear the Draft canvas and redraw with new poistion
+        this.cornerCP = {   1: {x: this.cornerCP['1'].x + 10 , y: this.cornerCP['1'].y + 10},
+                            2: {x: this.cornerCP['2'].x + 10 , y: this.cornerCP['2'].y + 10},
+                            3: {x: this.cornerCP['3'].x + 10 , y: this.cornerCP['3'].y + 10},
+                            4: {x: this.cornerCP['4'].x + 10 , y: this.cornerCP['4'].y + 10}};
+        this.centre_pt = {x: this.centre_pt.x + 10 , y: this.centre_pt.y + 10};
+        this.print = true;
+        this.drawCircle();
+        //console.log(`Finished: ${this.finish}`);
+        //console.log(`Phase 2: ${this.phase_adjust}`);
     }
     onRotate(){}
 
@@ -202,7 +227,7 @@ class DrawingCircle2 extends PaintFunction{
         this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
 
         //get radius if the radius is not moving
-        if (!this.move){
+        if (!this.move && !this.print){
             this.radius = Math.sqrt(Math.pow((this.endpt.y - this.centre_pt.y),2) + Math.pow((this.endpt.x - this.centre_pt.x),2));
         }
         
@@ -237,11 +262,12 @@ class DrawingCircle2 extends PaintFunction{
             this.contextDraft.stroke();
         }
         
-        
+
         //Draw centre point - this.drawCPDraft(this.centre_pt.x, this.centre_pt.y)
     
         //restore previous setting
         this.contextDraft.restore();
+        this.print = false;
     }
 
     drawCPDraft(x, y){

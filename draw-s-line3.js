@@ -1,8 +1,9 @@
 class Draw_S_Line3 extends PaintFunction{  //using one canvas draft only
-    constructor(contextReal,contextDraft){
+    constructor(contextReal,contextDraft, canvas_log){
         super();
         this.contextReal = contextReal;
         this.contextDraft = contextDraft;
+        this.canvas_log = canvas_log;
         this.origX = 0;
         this.origY = 0;
         this.cp1 = {x:0, y:0};
@@ -107,9 +108,9 @@ class Draw_S_Line3 extends PaintFunction{  //using one canvas draft only
             this.contextReal.beginPath();
             this.contextReal.moveTo(this.cp1.x ,this.cp1.y);
             this.contextReal.lineTo(this.cp2.x,this.cp2.y);
-            this.contextReal.moveTo(this.cp2.x,this.cp2.y);
             this.contextReal.closePath();
-            this.contextReal.stroke();   
+            this.contextReal.stroke();
+            this.canvas_log.saveState();   
         }
     }
 
@@ -161,7 +162,7 @@ class Draw_S_Line3 extends PaintFunction{  //using one canvas draft only
             this.drawCPDraft(this.cp2.x, this.cp2.y);
         }
     }
-
+    onPrint(){}
     //class internal method
     drawDraft(x,y){
         this.contextDraft.lineTo(x,y);

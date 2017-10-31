@@ -1,9 +1,10 @@
 class DrawingLineSmooth extends PaintFunction{
     
-    constructor(contextReal, contextDraft){
+    constructor(contextReal, contextDraft, canvas_log){
         super();
         this.contextReal = contextReal;
-        this.contextDraft = contextDraft;      
+        this.contextDraft = contextDraft; 
+        this.canvas_log = canvas_log;     
         this.prevCoord = []; 
         this.points = [];         
     }
@@ -41,6 +42,7 @@ class DrawingLineSmooth extends PaintFunction{
             this.prevCoord = this.points[index];
         }
         this.contextReal.stroke();
+        this.canvas_log.saveState();
         this.points.length = 0;
         this.prevCoord = [];
     }

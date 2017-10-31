@@ -1,8 +1,9 @@
 class DrawingEllipse extends PaintFunction{
-    constructor(contextReal,contextDraft){
+    constructor(contextReal,contextDraft, canvas_log){
         super();
         this.contextReal = contextReal;
         this.contextDraft = contextDraft;  
+        this.canvas_log = canvas_log;
         this.startpt = {x:0, y:0};
         this.endpt = {x:0, y:0};
         this.prevCoord = {x:0, y:0};
@@ -42,7 +43,6 @@ class DrawingEllipse extends PaintFunction{
             this.prevCoord = {x:coord[0], y:coord[1]};
             this.createCP();
             this.drawEllipse();
-            //this.drawLine();
         } else if (this.move){
             this.prevCoord = {x:coord[0], y:coord[1]};
         }
@@ -51,7 +51,6 @@ class DrawingEllipse extends PaintFunction{
     onDragging(coord,event){
         this.endpt = {x:coord[0], y:coord[1]};
         if (!this.finish && !this.move){
-            this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
         
             this.prevCoord = {x:coord[0], y:coord[1]};
             this.createCP();
@@ -65,7 +64,6 @@ class DrawingEllipse extends PaintFunction{
 
     onMouseMove(){}
     onMouseUp(coord){
-        this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
         this.endpt = {x:coord[0], y:coord[1]};
         this.prevCoord = {x:coord[0], y:coord[1]};
         if (!this.finish && !this.move){ 
@@ -73,6 +71,7 @@ class DrawingEllipse extends PaintFunction{
                 this.phase_adjust = true;
                 $('#cancel').show();
                 $('#rotate-slider-bar').show();
+                $('#print').show();
             }
             this.prevCoord = {x:coord[0], y:coord[1]};
             this.createCP();
@@ -91,6 +90,7 @@ class DrawingEllipse extends PaintFunction{
                                         (this.rotation)*Math.PI/180, 0, 2*Math.PI);
             if (this.border){this.contextReal.stroke();} //draw border if it is choosed
             if (this.fill){this.contextReal.fill();} //fill rect if it is choosed
+            this.canvas_log.saveState();
             //reset all parameter
             this.finish = this.phase_adjust = this.move = false;
             this.border = true;
@@ -98,7 +98,7 @@ class DrawingEllipse extends PaintFunction{
             //hide cancel and rotation panel
             $('#cancel').hide();
             $('#rotate-slider-bar').hide();
-
+            $('#print').hide();
         }
         
     }
@@ -112,22 +112,43 @@ class DrawingEllipse extends PaintFunction{
     onMouseEnter(){}
     onFinish(){}
     onCancel(){
+        console.log('cancelling');
         this.finish = this.phase_adjust = this.move = false;
         this.border = true;
         this.fill = false;
         this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
         $('#cancel').hide();
+        $('#print').hide();
         $('#rotate-slider-bar').hide();
     }
     onChange(){
         if (this.phase_adjust){
-            this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
             //refresh setting
             this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "grey";
             this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());
             //redraw curve
             this.drawEllipse();
         }
+    }
+    onPrint(){
+        //print a copy onto the real canvas and move the curve and control points to the right and down 10px
+        this.contextReal.beginPath();
+        this.contextReal.ellipse(this.centre_pt.x, this.centre_pt.y, this.ellipseWidth, this.ellipseHeight, 
+                                    (this.rotation)*Math.PI/180, 0, 2*Math.PI);
+        if (this.border){this.contextReal.stroke();} //draw border if it is choosed
+        if (this.fill){this.contextReal.fill();} //fill rect if it is choosed
+        this.canvas_log.saveState();
+
+        //clear the Draft canvas and redraw with new poistion
+        this.cornerCP = {   1: {x: this.cornerCP['1'].x + 10 , y: this.cornerCP['1'].y + 10},
+                            2: {x: this.cornerCP['2'].x + 10 , y: this.cornerCP['2'].y + 10},
+                            3: {x: this.cornerCP['3'].x + 10 , y: this.cornerCP['3'].y + 10},
+                            4: {x: this.cornerCP['4'].x + 10 , y: this.cornerCP['4'].y + 10}};
+        this.centre_pt = {x: this.centre_pt.x + 10 , y: this.centre_pt.y + 10};
+        this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
+        this.drawEllipse();
+        //console.log(`Finished: ${this.finish}`);
+        //console.log(`Phase 2: ${this.phase_adjust}`);
     }
     onRotate(degree){
         let degree_change = degree - this.degree_current;

@@ -14,7 +14,7 @@ class Eraser extends PaintFunction{
         this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "white";
         this.contextDraft.lineJoin = this.contextDraft.lineCap = "round";
         this.contextReal.lineJoin = this.contextReal.lineCap = "round";
-        this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());
+        this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val())+2;
         this.cp_size = this.contextDraft.lineWidth*2;
         //draw initial white line on draft
         this.points.push(coord);
@@ -43,7 +43,7 @@ class Eraser extends PaintFunction{
     onMouseUp(){
         //set style
         this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "white";
-        this.contextDraft.lineWidth = this.contextReal.lineWidth = 15;
+        this.contextDraft.lineWidth = this.contextReal.lineWidth =  parseInt($("#size_field").val())+2;
         //clear Draft
         this.contextDraft.clearRect(0, 0, canvasDraft.width, canvasDraft.height);
         //draw line back to real
@@ -62,6 +62,8 @@ class Eraser extends PaintFunction{
     onMouseEnter(){}
     onFinish(){}
     onCancel(){}
+    onChange(){}
+    onRotate(){}
     
 
     //class internal methods

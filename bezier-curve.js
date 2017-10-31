@@ -1,8 +1,9 @@
 class Bezier_Curve extends PaintFunction{  //using one canvas draft only
-    constructor(contextReal,contextDraft){
+    constructor(contextReal,contextDraft, canvas_log){
         super();
         this.contextReal = contextReal;
         this.contextDraft = contextDraft;
+        this.canvas_log = canvas_log;
         this.startpt = {x:0, y:0};
         this.endpt = {x:0, y:0};
         this.midpt1 = {x:0, y:0};
@@ -127,6 +128,7 @@ class Bezier_Curve extends PaintFunction{  //using one canvas draft only
             this.contextReal.bezierCurveTo(this.quadcoord.mid1.x,this.quadcoord.mid1.y, this.quadcoord.mid2.x,this.quadcoord.mid2.y,
                 this.quadcoord.end.x,this.quadcoord.end.y);
             this.contextReal.stroke();
+            this.canvas_log.saveState();
             //hide the cancel button
             $('#cancel').hide();
         }

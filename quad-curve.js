@@ -1,8 +1,9 @@
 class Quad_Curve extends PaintFunction{  //using one canvas draft only
-    constructor(contextReal,contextDraft){
+    constructor(contextReal,contextDraft, canvas_log){
         super();
         this.contextReal = contextReal;
         this.contextDraft = contextDraft;
+        this.canvas_log = canvas_log;
         this.startpt = {x:0, y:0};
         this.endpt = {x:0, y:0};
         this.midpt = {x:0, y:0};
@@ -110,6 +111,7 @@ class Quad_Curve extends PaintFunction{  //using one canvas draft only
             this.contextReal.moveTo(this.quadcoord.start.x,this.quadcoord.start.y);
             this.contextReal.quadraticCurveTo(this.quadcoord.mid.x,this.quadcoord.mid.y,this.quadcoord.end.x,this.quadcoord.end.y);
             this.contextReal.stroke();
+            this.canvas_log.saveState();
             //hide the cancel button
             $('#cancel').hide();
         }

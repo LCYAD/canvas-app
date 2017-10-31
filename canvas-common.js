@@ -47,10 +47,17 @@ $('#canvas-draft').mouseenter(function(e){
 
 //load on Cancel is the mouse is up while outside of the canvas
 $(window).mouseup(function(e){
-    if (left){
+    if ((left) && (e.target.id != 'print')){
         left = false;
         dragging = false;
         currentFunction.onCancel();
+        //reset the slider value
+        $('#size-slider').slider({value: 3});
+        $("#size_field").text(3);
+        $("#size_field").val(3);
+        $('#rotate-slider').slider({value: 0});
+        $("#rotate_field").text(0);
+        $("#rotate_field").val(0);
     }
 });
 
@@ -82,6 +89,17 @@ $('#finish').click(function(e){
 $('#cancel').click(function(e){
     currentFunction.onCancel();
     dragging = false;
+    //reset the slider value
+    $('#size-slider').slider({value: 3});
+    $("#size_field").text(3);
+    $("#size_field").val(3);
+    $('#rotate-slider').slider({value: 0});
+    $("#rotate_field").text(0);
+    $("#rotate_field").val(0);
+});
+
+$('#print').click(function(e){
+    currentFunction.onPrint();
 });
 
 class PaintFunction{
@@ -96,5 +114,6 @@ class PaintFunction{
     //onFinish(){}
     onCancel(){}
     onChange(){}
+    onPrint(){}
     onRotate(){}
 }    

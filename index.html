@@ -21,60 +21,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 
     <script>
-        $(window).on('load', function(){
-            $( "#draggable" ).draggable().resizable().hide();
-            /*$( "#control_pt_1" ).draggable().hide();
-            $( "#control_pt_2" ).draggable().hide();
-            $( "#control_pt_3" ).draggable().hide();
-            $( "#control_pt_4" ).draggable().hide();
-            $( "#control_pt_5" ).draggable().hide();
-            $( "#control_pt_6" ).draggable().hide();
-            $( "#control_pt_7" ).draggable().hide();
-            $( "#control_pt_8" ).draggable().hide();*/
-
-            //hide the finish and cancel button
-            //$('#finish').hide();
-            $('#cancel').hide();
-            $('#rotate-slider-bar').hide();
-
-            //Set the size for the canvas
-            let canvas_width = $(window).width()-200;
-            let canvas_height = $(window).height()-200;
-            $( "#canvas-real" )[0].width = $( "#canvas-draft" )[0].width = canvas_width;
-            $( "#canvas-real" )[0].height = $( "#canvas-draft" )[0].height = canvas_height;
-
-            /*Hide the second draft
-            $( "#canvas-draft2" ).hide();*/
-
-            $('#size-slider').slider({
-                orientation: "horizontal",
-                range: false,
-                min: 1,
-                max: 50,
-                value: 5,
-                step: 1,
-                animate: true,
-                slide: function(event, ui){
-                    $("#size_field").text(ui.value);
-                    $("#size_field").val(ui.value);
-                    currentFunction.onChange(ui.value);
-                }
-            });
-            $('#rotate-slider').slider({
-                orientation: "horizontal",
-                range: false,
-                min: 0,
-                max: 359,
-                value: 0,
-                step: 1,
-                animate: true,
-                slide: function(event, ui){
-                    $("#rotate_field").text(ui.value);
-                    $("#rotate_field").val(ui.value);
-                    currentFunction.onRotate(ui.value);
-                }
-            });
-        });
+        
         
     </script>
 </head>
@@ -98,7 +45,7 @@
         <span class="btn btn-primary fa fa-square" id="drawing-rectangle2">Rectangle2</span>
         <span class="btn btn-info fa fa-paint-brush" id="drawing-line" >Line Original</span>
         <span class="btn btn-info fa fa-paint-brush" id="drawing-line-smooth" >Line Smooth</span>
-        <!--<span class="btn btn-info fa fa-paint-brush" id="print" >Print</span>-->
+        <!--<span class="btn btn-info fa fa-paint-brush" id="print2" >Print2</span>-->
         <!--<span class="btn btn-info fa fa-paint-brush" id="draw-s-line" >Straight Line</span>-->
         <!--<span class="btn btn-info fa fa-paint-brush" id="draw-s-line2" >Straight Line 2</span>-->
         <span class="btn btn-info fa fa-paint-brush" id="draw-s-line3" >Straight Line 3</span>
@@ -109,8 +56,11 @@
         <span class="btn btn-primary fa fa-square" id="drawing-ellipse">Ellipse</span>
         <span class="btn btn-info" id="eraser" >Erase</span>
         <span class="btn btn-info" id="clear" >Clear Screen</span>
+        <span class="btn btn-info" id="undo" >Undo</span>
+        <span class="btn btn-info" id="redo" >Redo</span>
         <!--<span class="btn btn-info" id="finish" >Finish</span>-->
         <span class="btn btn-info" id="cancel" >Cancel</span>
+        <span class="btn btn-info" id="print" >Print</span>
     </div>
     <div class="container-fluid">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -127,7 +77,9 @@
         <img src="4-1.jpg" class="img-responsive" id="image">
     </div>
 
+    <script type='text/javascript' src="main.js"></script>
     <script type='text/javascript' src="canvas-common.js"></script>
+    <script type='text/javascript' src="actionlog.js"></script>
     <script type='text/javascript' src="drawing-line.js"></script>
     <script type='text/javascript' src="drawing-line-smooth.js"></script>
     <script type='text/javascript' src="draw-s-line.js"></script>
@@ -142,57 +94,8 @@
     <script type='text/javascript' src="drawing-ellipse.js"></script>
     <script type='text/javascript' src="eraser.js"></script>
     <script type='text/javascript'>
-        currentFunction = new DrawingLine(contextReal,contextDraft);
-        $('#drawing-rectangle').click(()=>{
-            currentFunction = new DrawingRectangle(contextReal,contextDraft);
-        });
-        $('#drawing-rectangle2').click(()=>{
-            currentFunction = new DrawingRectangle2(contextReal,contextDraft);
-        });
-        $('#drawing-line').click(()=>{
-            currentFunction = new DrawingLine(contextReal,contextDraft);
-        });
-        $('#drawing-line-smooth').click(()=>{
-            currentFunction = new DrawingLineSmooth(contextReal,contextDraft);
-        });
-        $('#draw-s-line').click(()=>{
-            currentFunction = new Draw_S_Line(contextReal,contextDraft);
-        });
-        $('#quad-curve').click(()=>{
-            currentFunction = new Quad_Curve(contextReal,contextDraft);
-        });
-        $('#bezier-curve').click(()=>{
-            currentFunction = new Bezier_Curve(contextReal,contextDraft);
-        });
-        $('#draw-s-line3').click(()=>{
-            currentFunction = new Draw_S_Line3(contextReal,contextDraft);
-        });
-        $('#drawing-circle').click(()=>{
-            currentFunction = new DrawingCircle(contextReal,contextDraft);
-        });
-        $('#drawing-circle2').click(()=>{
-            currentFunction = new DrawingCircle2(contextReal,contextDraft);
-        });
-        $('#drawing-ellipse').click(()=>{
-            currentFunction = new DrawingEllipse(contextReal,contextDraft);
-        });
-        $('#eraser').click(()=>{
-            currentFunction = new Eraser(contextReal,contextDraft);
-        });
-        $('#clear').click(()=>{
-            contextReal.clearRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
-        });
-        /*$('#draw-s-line2').click(()=>{
-            currentFunction = new Draw_S_Line2(contextReal,contextDraft,contextDraft2);
-        });*/
-        /*$('#print').click(() =>{
-            let x = $('#draggable').position().left-50;
-            let y = $('#draggable').position().top-50;
-            let h = $('#image').height();
-            let w = $('#image').width();
-            let img = document.getElementById("image");
-            contextReal.drawImage(img,x,y, w, h);
-        });*/
+        
     </script>
 </body>
 </html>
+    
