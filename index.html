@@ -1,0 +1,193 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <!-- JQuery UI CSS -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css">
+
+    <!-- Style Sheet -->
+    <link href="css/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fascinate+Inline|Pacifico" rel="stylesheet">
+
+    <!-- JQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+
+    <script>
+        $(window).on('load', function(){
+            $( "#draggable" ).draggable().resizable().hide();
+            /*$( "#control_pt_1" ).draggable().hide();
+            $( "#control_pt_2" ).draggable().hide();
+            $( "#control_pt_3" ).draggable().hide();
+            $( "#control_pt_4" ).draggable().hide();
+            $( "#control_pt_5" ).draggable().hide();
+            $( "#control_pt_6" ).draggable().hide();
+            $( "#control_pt_7" ).draggable().hide();
+            $( "#control_pt_8" ).draggable().hide();*/
+
+            //hide the finish and cancel button
+            //$('#finish').hide();
+            $('#cancel').hide();
+            $('#rotate-slider-bar').hide();
+
+            //Set the size for the canvas
+            let canvas_width = $(window).width()-200;
+            let canvas_height = $(window).height()-200;
+            $( "#canvas-real" )[0].width = $( "#canvas-draft" )[0].width = canvas_width;
+            $( "#canvas-real" )[0].height = $( "#canvas-draft" )[0].height = canvas_height;
+
+            /*Hide the second draft
+            $( "#canvas-draft2" ).hide();*/
+
+            $('#size-slider').slider({
+                orientation: "horizontal",
+                range: false,
+                min: 1,
+                max: 50,
+                value: 5,
+                step: 1,
+                animate: true,
+                slide: function(event, ui){
+                    $("#size_field").text(ui.value);
+                    $("#size_field").val(ui.value);
+                    currentFunction.onChange(ui.value);
+                }
+            });
+            $('#rotate-slider').slider({
+                orientation: "horizontal",
+                range: false,
+                min: 0,
+                max: 359,
+                value: 0,
+                step: 1,
+                animate: true,
+                slide: function(event, ui){
+                    $("#rotate_field").text(ui.value);
+                    $("#rotate_field").val(ui.value);
+                    currentFunction.onRotate(ui.value);
+                }
+            });
+        });
+        
+    </script>
+</head>
+<body>
+    <div id="canvas-container">
+        <canvas id="canvas-real" class="canvas" style="position: absolute; border: 2px dotted;  margin: 100px;"></canvas>
+        <canvas id="canvas-draft" class="canvas" style="position: absolute; border: 2px dotted; margin: 100px;"></canvas>
+        <!--<canvas id="canvas-draft2" class="canvas" style="position: absolute; border: 2px dotted; margin: 50px;"></canvas>
+        <div id="control_pt_1" class="ui-widget-content control_pt" style="position: absolute; top: 0; left: 0;"></div>
+        <div id="control_pt_2" class="ui-widget-content control_pt" style=" position: absolute; top: 0; left: 0;"></div>
+        <div id="control_pt_3" class="ui-widget-content control_pt"></div>
+        <div id="control_pt_4" class="ui-widget-content control_pt"></div>
+        <div id="control_pt_5" class="ui-widget-content control_pt"></div>
+        <div id="control_pt_6" class="ui-widget-content control_pt"></div>
+        <div id="control_pt_7" class="ui-widget-content control_pt"></div>
+        <div id="control_pt_8" class="ui-widget-content control_pt"></div>-->    
+    </div>
+
+    <div class="buttons" style="width: 100%">
+        <span class="btn btn-primary fa fa-square" id="drawing-rectangle">Rectangle</span>
+        <span class="btn btn-primary fa fa-square" id="drawing-rectangle2">Rectangle2</span>
+        <span class="btn btn-info fa fa-paint-brush" id="drawing-line" >Line Original</span>
+        <span class="btn btn-info fa fa-paint-brush" id="drawing-line-smooth" >Line Smooth</span>
+        <!--<span class="btn btn-info fa fa-paint-brush" id="print" >Print</span>-->
+        <span class="btn btn-info fa fa-paint-brush" id="draw-s-line" >Straight Line</span>
+        <!--<span class="btn btn-info fa fa-paint-brush" id="draw-s-line2" >Straight Line 2</span>-->
+        <span class="btn btn-info fa fa-paint-brush" id="draw-s-line3" >Straight Line 3</span>
+        <span class="btn btn-info fa fa-paint-brush" id="quad-curve" > 3 pt curve</span>
+        <span class="btn btn-info fa fa-paint-brush" id="bezier-curve" > 4 pt curve</span>
+        <span class="btn btn-primary fa fa-square" id="drawing-circle">Circle</span>
+        <span class="btn btn-primary fa fa-square" id="drawing-circle2">Circle2</span>
+        <span class="btn btn-info" id="eraser" >Erase</span>
+        <span class="btn btn-info" id="clear" >Clear Screen</span>
+        <!--<span class="btn btn-info" id="finish" >Finish</span>-->
+        <span class="btn btn-info" id="cancel" >Cancel</span>
+    </div>
+    <div class="container-fluid">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div id="size-slider"></div><span>Size : </span><span id="size_field" value="5">5</span><span>px</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="rotate-slider-bar">
+            <div id="rotate-slider"></div><span>Size : </span><span id="rotate_field" value="0">0</span><span>degree</span>
+        </div>
+    </div>
+
+    
+
+    <div id="draggable" class="ui-widget-content" style="height: 300px; width: 400px;">
+        <img src="4-1.jpg" class="img-responsive" id="image">
+    </div>
+
+    <script type='text/javascript' src="canvas-common.js"></script>
+    <script type='text/javascript' src="drawing-line.js"></script>
+    <script type='text/javascript' src="drawing-line-smooth.js"></script>
+    <script type='text/javascript' src="draw-s-line.js"></script>
+    <!--<script type='text/javascript' src="draw-s-line2.js"></script>-->
+    <script type='text/javascript' src="draw-s-line3.js"></script>
+    <script type='text/javascript' src="quad-curve.js"></script>
+    <script type='text/javascript' src="bezier-curve.js"></script>
+    <script type='text/javascript' src="drawing-rectangle.js"></script>
+    <script type='text/javascript' src="drawing-rectangle2.js"></script>
+    <script type='text/javascript' src="drawing-circle.js"></script>
+    <script type='text/javascript' src="drawing-circle2.js"></script>
+    <script type='text/javascript' src="eraser.js"></script>
+    <script type='text/javascript'>
+        currentFunction = new DrawingLine(contextReal,contextDraft);
+        $('#drawing-rectangle').click(()=>{
+            currentFunction = new DrawingRectangle(contextReal,contextDraft);
+        });
+        $('#drawing-rectangle2').click(()=>{
+            currentFunction = new DrawingRectangle2(contextReal,contextDraft);
+        });
+        $('#drawing-line').click(()=>{
+            currentFunction = new DrawingLine(contextReal,contextDraft);
+        });
+        $('#drawing-line-smooth').click(()=>{
+            currentFunction = new DrawingLineSmooth(contextReal,contextDraft);
+        });
+        $('#draw-s-line').click(()=>{
+            currentFunction = new Draw_S_Line(contextReal,contextDraft);
+        });
+        $('#quad-curve').click(()=>{
+            currentFunction = new Quad_Curve(contextReal,contextDraft);
+        });
+        $('#bezier-curve').click(()=>{
+            currentFunction = new Bezier_Curve(contextReal,contextDraft);
+        });
+        $('#draw-s-line3').click(()=>{
+            currentFunction = new Draw_S_Line3(contextReal,contextDraft);
+        });
+        $('#drawing-circle').click(()=>{
+            currentFunction = new DrawingCircle(contextReal,contextDraft);
+        });
+        $('#drawing-circle2').click(()=>{
+            currentFunction = new DrawingCircle2(contextReal,contextDraft);
+        });
+        $('#eraser').click(()=>{
+            currentFunction = new Eraser(contextReal,contextDraft);
+        });
+        $('#clear').click(()=>{
+            contextReal.clearRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
+        });
+        /*$('#draw-s-line2').click(()=>{
+            currentFunction = new Draw_S_Line2(contextReal,contextDraft,contextDraft2);
+        });*/
+        /*$('#print').click(() =>{
+            let x = $('#draggable').position().left-50;
+            let y = $('#draggable').position().top-50;
+            let h = $('#image').height();
+            let w = $('#image').width();
+            let img = document.getElementById("image");
+            contextReal.drawImage(img,x,y, w, h);
+        });*/
+    </script>
+</body>
+</html>

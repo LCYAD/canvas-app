@@ -1,0 +1,10 @@
+body{
+    font-size: 10px;
+}
+
+.control_pt{
+    height: 15px; 
+    width: 15px; 
+    border-radius: 50%;
+    background: rgba(128, 128, 128);
+}
