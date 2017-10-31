@@ -7,6 +7,8 @@ let contextDraft2 = canvasDraft2.getContext('2d');*/
 let currentFunction;
 let dragging = false;
 let left = false;
+let outsideCanvas = false
+
 
 
 $('#canvas-draft').mousedown(function(e){
@@ -14,6 +16,10 @@ $('#canvas-draft').mousedown(function(e){
     let mouseY = e.pageY - this.offsetTop;
     currentFunction.onMouseDown([mouseX,mouseY],e);
     dragging = true;
+    if (currentFunction.constructor.name !== 'InsertText' ){
+        $('input[type=text]').css({display: 'none'})
+        $('input[type=text]').val("")
+    } // Make sure html is hidden on all other funtions
 });
 $('#canvas-draft').mousemove(function(e){
     if(dragging){
@@ -38,12 +44,15 @@ $('#canvas-draft').mouseleave(function(e){
         currentFunction.onMouseLeave([mouseX,mouseY],e);
     }
     left = true;
+    outsideCanvas = true;
 });
 $('#canvas-draft').mouseenter(function(e){
     let mouseX = e.pageX - this.offsetLeft;
     let mouseY = e.pageY - this.offsetTop;
+    outsideCanvas = false
     currentFunction.onMouseEnter([mouseX,mouseY],e);
 });
+    
 
 //load on Cancel is the mouse is up while outside of the canvas
 $(window).mouseup(function(e){
@@ -84,6 +93,14 @@ $('#cancel').click(function(e){
     dragging = false;
 });
 
+$(document).keypress(function(e) {
+    let mouseX = e.pageX - this.offsetLeft;
+    let mouseY = e.pageY - this.offsetTop;
+    if(e.which == 13) {
+        currentFunction.onEnterPress([mouseX,mouseY],e);
+    }
+})
+
 class PaintFunction{
     constructor(){}
     onMouseDown(){}
@@ -97,4 +114,5 @@ class PaintFunction{
     onCancel(){}
     onChange(){}
     onRotate(){}
+    onEnterPress(){}
 }    
