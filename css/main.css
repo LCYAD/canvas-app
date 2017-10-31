@@ -8,3 +8,8 @@ body{
     border-radius: 50%;
     background: rgba(128, 128, 128);
 }
+
+input{
+    height: 50px;
+    width: 200px;
+}
