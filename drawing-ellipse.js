@@ -1,8 +1,9 @@
-class DrawingCircle2 extends PaintFunction{
+class DrawingEllipse extends PaintFunction{
     constructor(contextReal,contextDraft){
         super();
         this.contextReal = contextReal;
-        this.contextDraft = contextDraft;
+        this.contextDraft = contextDraft;  
+        this.startpt = {x:0, y:0};
         this.endpt = {x:0, y:0};
         this.prevCoord = {x:0, y:0};
         this.cp_size = 20;  //setting standard size of the control points
@@ -12,10 +13,13 @@ class DrawingCircle2 extends PaintFunction{
         this.cornerCP = {1:{x:0,y:0},2:{x:0,y:0},3:{x:0,y:0},4:{x:0,y:0}};
         //this.midCP = {1:{x:0,y:0},2:{x:0,y:0},3:{x:0,y:0},4:{x:0,y:0}};  <-Mid point is not implemented
         this.centre_pt = {x:0, y:0};
-        this.radius= 0;
+        this.degree_current = 0;
+        this.ellipseWidth = 0;
+        this.ellipseHeight = 0;
         this.border = true;
         this.fill = false;
         this.move = false;
+        this.rotation = 0;      
     }
     
     onMouseDown(coord,event){
@@ -28,26 +32,19 @@ class DrawingCircle2 extends PaintFunction{
         //check to see the phase adjust has started or not
         if (!this.phase_adjust){
             //to begin, set all points to be the same
-            this.centre_pt = {x:coord[0], y:coord[1]};
+            this.startpt = {x:coord[0], y:coord[1]};
             this.endpt = {x:coord[0], y:coord[1]};
         } else{
             this.checkCP(coord[0], coord[1]);
-            if (this.dragpt === '1' || this.dragpt === '3' ){
-                //only adjust the y coord
-                this.endpt.y = coord[1];
-            } else if (this.dragpt === '2' || this.dragpt === '4'){
-                //only adjust the x coord
-                this.endpt.x = coord[0];
-            }
+            this.endpt = {x:coord[0], y:coord[1]};
         }
         if (!this.finish && !this.move){
             this.prevCoord = {x:coord[0], y:coord[1]};
             this.createCP();
-            this.drawCircle();
+            this.drawEllipse();
             //this.drawLine();
         } else if (this.move){
             this.prevCoord = {x:coord[0], y:coord[1]};
-            this.drawCircle();
         }
     }
 
@@ -55,12 +52,13 @@ class DrawingCircle2 extends PaintFunction{
         this.endpt = {x:coord[0], y:coord[1]};
         if (!this.finish && !this.move){
             this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
+        
             this.prevCoord = {x:coord[0], y:coord[1]};
             this.createCP();
-            this.drawCircle();
+            this.drawEllipse();
             //this.drawLine();
         } else if (this.move){
-            this.moveCircle();
+            this.moveEllipse();
             this.prevCoord = {x:coord[0], y:coord[1]};
         }
     }
@@ -74,30 +72,33 @@ class DrawingCircle2 extends PaintFunction{
             if (!this.phase_adjust){
                 this.phase_adjust = true;
                 $('#cancel').show();
+                $('#rotate-slider-bar').show();
             }
             this.prevCoord = {x:coord[0], y:coord[1]};
             this.createCP();
-            this.drawCircle();
+            this.drawEllipse();
             //this.drawLine();
             
         } else if (this.move){
-            this.moveCircle();
+            this.moveEllipse();
             this.prevCoord = {x:coord[0], y:coord[1]};
             this.move = false;
         } else{
             console.log('ending..')
             //draw the points on the real canvas
             this.contextReal.beginPath();
-            this.contextReal.arc(this.centre_pt.x, this.centre_pt.y, this.radius, 0, 2*Math.PI);
+            this.contextReal.ellipse(this.centre_pt.x, this.centre_pt.y, this.ellipseWidth, this.ellipseHeight, 
+                                        (this.rotation)*Math.PI/180, 0, 2*Math.PI);
             if (this.border){this.contextReal.stroke();} //draw border if it is choosed
             if (this.fill){this.contextReal.fill();} //fill rect if it is choosed
-             //reset all parameter
-             this.finish = this.phase_adjust = this.move = false;
-             this.radius = this.dragpt = 0;
-             this.border = true;
-             this.fill = false;
-             //hide cancel and rotation panel
-             $('#cancel').hide();
+            //reset all parameter
+            this.finish = this.phase_adjust = this.move = false;
+            this.border = true;
+            this.fill = false;
+            //hide cancel and rotation panel
+            $('#cancel').hide();
+            $('#rotate-slider-bar').hide();
+
         }
         
     }
@@ -105,18 +106,18 @@ class DrawingCircle2 extends PaintFunction{
         this.endpt = {x:this.prevCoord.x, y:this.prevCoord.y};
         if (!this.finish && !this.move){
             this.createCP();
-            this.drawCircle();
+            this.drawEllipse();
         }
     }
     onMouseEnter(){}
     onFinish(){}
     onCancel(){
         this.finish = this.phase_adjust = this.move = false;
-        this.radius = this.dragpt = 0;
         this.border = true;
         this.fill = false;
         this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
         $('#cancel').hide();
+        $('#rotate-slider-bar').hide();
     }
     onChange(){
         if (this.phase_adjust){
@@ -125,54 +126,76 @@ class DrawingCircle2 extends PaintFunction{
             this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "grey";
             this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());
             //redraw curve
-            this.drawCircle();
+            this.drawEllipse();
         }
     }
-    onRotate(){}
+    onRotate(degree){
+        let degree_change = degree - this.degree_current;
+        this.degree_current = degree;
+        this.rotation = degree;
+        this.cornerCP = {   1: this.rotateCoord({x: this.cornerCP['1'].x - this.centre_pt.x, y: this.cornerCP['1'].y - this.centre_pt.y}, degree_change),
+                            2: this.rotateCoord({x: this.cornerCP['2'].x - this.centre_pt.x, y: this.cornerCP['2'].y - this.centre_pt.y}, degree_change),
+                            3: this.rotateCoord({x: this.cornerCP['3'].x - this.centre_pt.x, y: this.cornerCP['3'].y - this.centre_pt.y}, degree_change),
+                            4: this.rotateCoord({x: this.cornerCP['4'].x - this.centre_pt.x, y: this.cornerCP['4'].y - this.centre_pt.y}, degree_change)};
+        this.drawEllipse();
+        //console.log(JSON.stringify(this.cornerCP));
+    }
 
     //internal method
     createCP(){
         /*
-            The 4 control points will be on the circle edge, and each control point can only expand the circle in one direction
-            For example, the control point 1 can only move up and down (only take new y coordinate, x stays the same)
-                         the control point 2 can only move left and right (only take new x coordinate, y stays the same)
-                         the control point 3 can only move up and down (only take new y coordinate, x stays the same)
-                         the control point 4 can only move left and right (only take new x coordinate, y stays the same)
-            1. get the distance between the end point and centre point
-            2. define the other 3 points
+            1. find the center point
+            2. determine the start and end coordinate
+            3. unrotate the start and end to its unrotated state.
+            4. generate the other 2 points
+            5. rotate all the points
         */
+        this.rotation = parseInt($("#rotate_field").val()) || 0;
 
-        this.radius = Math.sqrt(Math.pow((this.endpt.y - this.centre_pt.y),2) + Math.pow((this.endpt.x - this.centre_pt.x),2));
+        this.centre_pt = {x: this.startpt.x + (this.endpt.x-this.startpt.x)/2, y: this.startpt.y + (this.endpt.y-this.startpt.y)/2};
+        let unrotated_start = this.rotateCoord({x: this.startpt.x - this.centre_pt.x, y: this.startpt.y - this.centre_pt.y}, this.rotation*-1);
+        let unrotated_end = this.rotateCoord({x: this.endpt.x - this.centre_pt.x, y: this.endpt.y - this.centre_pt.y}, this.rotation*-1);
+
+        //update the new ellipse width and height
+        this.ellipseWidth = Math.abs(unrotated_end.x - unrotated_start.x)/2;
+        this.ellipseHeight = Math.abs(unrotated_end.y - unrotated_start.y)/2;
+
 
         if (!this.phase_adjust){
-            this.cornerCP = {   1: {x: this.centre_pt.x, y: this.centre_pt.y - this.radius},
-                                2: {x: this.centre_pt.x + this.radius, y: this.centre_pt.y},
-                                3: {x: this.centre_pt.x, y: this.centre_pt.y + this.radius},
-                                4: {x: this.centre_pt.x - this.radius, y: this.centre_pt.y}};
+            this.cornerCP = {   1: this.rotateCoord({x: this.startpt.x - this.centre_pt.x, y: this.startpt.y - this.centre_pt.y}, this.rotation),
+                                2: this.rotateCoord({x: this.endpt.x - this.centre_pt.x, y: this.startpt.y - this.centre_pt.y}, this.rotation),
+                                3: this.rotateCoord({x: this.endpt.x - this.centre_pt.x, y: this.endpt.y - this.centre_pt.y}, this.rotation),
+                                4: this.rotateCoord({x: this.startpt.x - this.centre_pt.x, y: this.endpt.y - this.centre_pt.y}, this.rotation)};
         } else{
-            //calculate the distance between dragging point and centre point then add them to the other 3 points
-            if (this.dragpt === '1'){
-                this.cornerCP = {1: {x: this.centre_pt.x, y: this.centre_pt.y - this.radius},
-                                 2: {x: this.centre_pt.x + this.radius, y: this.centre_pt.y},
-                                 3: {x: this.centre_pt.x, y: this.centre_pt.y + this.radius},
-                                 4: {x: this.centre_pt.x - this.radius, y: this.centre_pt.y}};
-            } else if (this.dragpt === '2'){
-                this.cornerCP = {1: {x: this.centre_pt.x, y: this.centre_pt.y - this.radius},
-                                 2: {x: this.centre_pt.x + this.radius, y: this.centre_pt.y},
-                                 3: {x: this.centre_pt.x, y: this.centre_pt.y + this.radius},
-                                 4: {x: this.centre_pt.x - this.radius, y: this.centre_pt.y}};
-            } else if (this.dragpt === '3'){
-                this.cornerCP = {1: {x: this.centre_pt.x, y: this.centre_pt.y - this.radius},
-                                 2: {x: this.centre_pt.x + this.radius, y: this.centre_pt.y},
-                                 3: {x: this.centre_pt.x, y: this.centre_pt.y + this.radius},
-                                 4: {x: this.centre_pt.x - this.radius, y: this.centre_pt.y}};
-            } else if (this.dragpt === '4'){
-                this.cornerCP = {1: {x: this.centre_pt.x, y: this.centre_pt.y - this.radius},
-                                 2: {x: this.centre_pt.x + this.radius, y: this.centre_pt.y},
-                                 3: {x: this.centre_pt.x, y: this.centre_pt.y + this.radius},
-                                 4: {x: this.centre_pt.x - this.radius, y: this.centre_pt.y}};
+            if (this.dragpt === 1){
+                this.cornerCP = {1: this.endpt,
+                                 2: this.rotateCoord({x: unrotated_end.x - this.centre_pt.x, y: unrotated_start.y - this.centre_pt.y}, this.rotation),
+                                 3: this.startpt,
+                                 4: this.rotateCoord({x: unrotated_start.x - this.centre_pt.x, y: unrotated_end.y - this.centre_pt.y}, this.rotation)};
+            } else if (this.dragpt === 2){
+                this.cornerCP = {1: this.rotateCoord({x: unrotated_start.x - this.centre_pt.x, y: unrotated_end.y - this.centre_pt.y}, this.rotation),
+                                 2: this.endpt,
+                                 3: this.rotateCoord({x: unrotated_end.x - this.centre_pt.x, y: unrotated_start.y - this.centre_pt.y}, this.rotation),
+                                 4: this.startpt};
+            } else if (this.dragpt === 3){
+                this.cornerCP = {1: this.startpt,
+                                 2: this.rotateCoord({x: unrotated_end.x - this.centre_pt.x, y: unrotated_start.y - this.centre_pt.y}, this.rotation),
+                                 3: this.endpt,
+                                 4: this.rotateCoord({x: unrotated_start.x - this.centre_pt.x, y: unrotated_end.y - this.centre_pt.y}, this.rotation)};
+            } else if (this.dragpt === 4){
+                this.cornerCP = {1: this.rotateCoord({x: unrotated_end.x - this.centre_pt.x, y: unrotated_start.y - this.centre_pt.y}, this.rotation),
+                                 2: this.startpt,
+                                 3: this.rotateCoord({x: unrotated_start.x - this.centre_pt.x, y: unrotated_end.y - this.centre_pt.y}, this.rotation),
+                                 4: this.endpt};
             }
         }  
+    }
+
+    rotateCoord(coord, degree){
+        // the coord x and y will be rotated then returned with the added centre_pt coordinate
+        let rotateRAD = (degree)*Math.PI/180;
+            return {x: coord.x*Math.cos(rotateRAD) - coord.y*Math.sin(rotateRAD) + this.centre_pt.x,
+                    y: coord.x*Math.sin(rotateRAD) + coord.y*Math.cos(rotateRAD) + this.centre_pt.y};
     }
 
     /*drawLine(){
@@ -185,9 +208,9 @@ class DrawingCircle2 extends PaintFunction{
         this.contextDraft.restore();
     }*/
 
-    moveCircle(){
+    moveEllipse(){
         //get the different between end point and prevCoord then move all 4 corners accordingly
-        //console.log(`Moving from ${JSON.stringify(this.prevCoord)} to ${JSON.stringify(this.endpt)} `);
+        console.log(`Moving from ${JSON.stringify(this.prevCoord)} to ${JSON.stringify(this.endpt)} `);
         let x_change = this.endpt.x - this.prevCoord.x;
         let y_change = this.endpt.y - this.prevCoord.y;
         this.cornerCP = {   1: {x: this.cornerCP['1'].x + x_change , y: this.cornerCP['1'].y + y_change},
@@ -195,20 +218,17 @@ class DrawingCircle2 extends PaintFunction{
                             3: {x: this.cornerCP['3'].x + x_change , y: this.cornerCP['3'].y + y_change},
                             4: {x: this.cornerCP['4'].x + x_change , y: this.cornerCP['4'].y + y_change}};
         this.centre_pt = {x: this.centre_pt.x + x_change , y: this.centre_pt.y + y_change};
-        this.drawCircle();
+        this.drawEllipse();
     }
 
-    drawCircle(){
+    drawEllipse(){
         this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
 
-        //get radius if the radius is not moving
-        if (!this.move){
-            this.radius = Math.sqrt(Math.pow((this.endpt.y - this.centre_pt.y),2) + Math.pow((this.endpt.x - this.centre_pt.x),2));
-        }
+        let rotateRAD = (this.rotation)*Math.PI/180;
         
         //use line to draw the perimeter of the rectangle
         this.contextDraft.beginPath();
-        this.contextDraft.arc(this.centre_pt.x, this.centre_pt.y, this.radius, 0, 2*Math.PI)
+        this.contextDraft.ellipse(this.centre_pt.x, this.centre_pt.y, this.ellipseWidth, this.ellipseHeight, rotateRAD, 0, 2*Math.PI);
         if (this.border){this.contextDraft.stroke();} //draw border if it is choosed
         if (this.fill){this.contextDraft.fill();} //fill rect if it is choosed
         
@@ -224,22 +244,29 @@ class DrawingCircle2 extends PaintFunction{
         this.contextDraft.setLineDash([2, 4]);
 
         //print out the corner control point
-        if (this.phase_adjust){
-            this.drawCPDraft(this.cornerCP['1'].x, this.cornerCP['1'].y);
-            this.drawCPDraft(this.cornerCP['2'].x, this.cornerCP['2'].y);
-            this.drawCPDraft(this.cornerCP['3'].x, this.cornerCP['3'].y);
-            this.drawCPDraft(this.cornerCP['4'].x, this.cornerCP['4'].y);
-        } else {
-            this.drawCPDraft(this.endpt.x, this.endpt.y);
-            this.contextDraft.beginPath();
-            this.contextDraft.moveTo(this.centre_pt.x, this.centre_pt.y);
-            this.contextDraft.lineTo(this.endpt.x, this.endpt.y);
-            this.contextDraft.stroke();
-        }
+        this.drawCPDraft(this.cornerCP['1'].x, this.cornerCP['1'].y);
+        this.drawCPDraft(this.cornerCP['2'].x, this.cornerCP['2'].y);
+        this.drawCPDraft(this.cornerCP['3'].x, this.cornerCP['3'].y);
+        this.drawCPDraft(this.cornerCP['4'].x, this.cornerCP['4'].y);
+
+        /*print out the middle control point
+        this.drawCPDraft(this.midCP['1'].x, this.midCP['1'].y);
+        this.drawCPDraft(this.midCP['2'].x, this.midCP['2'].y);
+        this.drawCPDraft(this.midCP['3'].x, this.midCP['3'].y);
+        this.drawCPDraft(this.midCP['4'].x, this.midCP['4'].y);*/
         
+        //Draw centre point - this.drawCPDraft(this.centre_pt.x, this.centre_pt.y);
         
-        //Draw centre point - this.drawCPDraft(this.centre_pt.x, this.centre_pt.y)
-    
+        //Draw the border for the 4 control points
+        this.contextDraft.beginPath();
+        this.contextDraft.moveTo(this.cornerCP['1'].x, this.cornerCP['1'].y);
+        this.contextDraft.lineTo(this.cornerCP['2'].x, this.cornerCP['2'].y);
+        this.contextDraft.lineTo(this.cornerCP['3'].x, this.cornerCP['3'].y);
+        this.contextDraft.lineTo(this.cornerCP['4'].x, this.cornerCP['4'].y);
+        this.contextDraft.closePath();
+        this.contextDraft.stroke();
+        
+
         //restore previous setting
         this.contextDraft.restore();
     }
@@ -260,23 +287,23 @@ class DrawingCircle2 extends PaintFunction{
         // check which point is clicked and the diagonal becomes the start point
         if ((this.between(x,this.cornerCP['1'].x - this.cp_size/2, this.cornerCP['1'].x + this.cp_size/2))
             && (this.between(y,this.cornerCP['1'].y - this.cp_size/2, this.cornerCP['1'].y+ this.cp_size/2))){
-            this.dragpt = '1';
-            this.endpt = this.cornerCP['1'];
+            this.dragpt = 1;
+            this.startpt = this.cornerCP['3'];
             console.log('Corner 1 was clicked');
         } else if ((this.between(x,this.cornerCP['2'].x - this.cp_size/2, this.cornerCP['2'].x + this.cp_size/2))
             && (this.between(y,this.cornerCP['2'].y - this.cp_size/2, this.cornerCP['2'].y+ this.cp_size/2))){
-            this.dragpt = '2';
-            this.endpt = this.cornerCP['2'];
+            this.dragpt = 2;
+            this.startpt = this.cornerCP['4'];
             console.log('Corner 2 was clicked');
         } else if ((this.between(x,this.cornerCP['3'].x - this.cp_size/2, this.cornerCP['3'].x + this.cp_size/2))
             && (this.between(y,this.cornerCP['3'].y - this.cp_size/2, this.cornerCP['3'].y+ this.cp_size/2))){
-            this.dragpt = '3';
-            this.endpt = this.cornerCP['3'];
+            this.dragpt = 3;
+            this.startpt = this.cornerCP['1'];
             console.log('Corner 3 was clicked');
         } else if ((this.between(x,this.cornerCP['4'].x - this.cp_size/2, this.cornerCP['4'].x + this.cp_size/2))
             && (this.between(y,this.cornerCP['4'].y - this.cp_size/2, this.cornerCP['4'].y+ this.cp_size/2))){
-            this.dragpt = '4';
-            this.endpt = this.cornerCP['4'];
+            this.dragpt = 4;
+            this.startpt = this.cornerCP['2'];
             console.log('Corner 4 was clicked');
         }/* Mid-point is skipped for the time being
         
@@ -299,7 +326,10 @@ class DrawingCircle2 extends PaintFunction{
         }*/ else {
             //draw the path out and use isPointInPath
             this.contextDraft.beginPath();
-            this.contextDraft.arc(this.centre_pt.x, this.centre_pt.y, this.radius, 0, 2*Math.PI)
+            this.contextDraft.moveTo(this.cornerCP['1'].x, this.cornerCP['1'].y);
+            this.contextDraft.lineTo(this.cornerCP['2'].x, this.cornerCP['2'].y);
+            this.contextDraft.lineTo(this.cornerCP['3'].x, this.cornerCP['3'].y);
+            this.contextDraft.lineTo(this.cornerCP['4'].x, this.cornerCP['4'].y);
             this.contextDraft.closePath();
             if (this.contextDraft.isPointInPath(x,y)){
                 this.move = true;

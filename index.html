@@ -94,18 +94,19 @@
     </div>
 
     <div class="buttons" style="width: 100%">
-        <span class="btn btn-primary fa fa-square" id="drawing-rectangle">Rectangle</span>
+        <!--<span class="btn btn-primary fa fa-square" id="drawing-rectangle">Rectangle</span>-->
         <span class="btn btn-primary fa fa-square" id="drawing-rectangle2">Rectangle2</span>
         <span class="btn btn-info fa fa-paint-brush" id="drawing-line" >Line Original</span>
         <span class="btn btn-info fa fa-paint-brush" id="drawing-line-smooth" >Line Smooth</span>
         <!--<span class="btn btn-info fa fa-paint-brush" id="print" >Print</span>-->
-        <span class="btn btn-info fa fa-paint-brush" id="draw-s-line" >Straight Line</span>
+        <!--<span class="btn btn-info fa fa-paint-brush" id="draw-s-line" >Straight Line</span>-->
         <!--<span class="btn btn-info fa fa-paint-brush" id="draw-s-line2" >Straight Line 2</span>-->
         <span class="btn btn-info fa fa-paint-brush" id="draw-s-line3" >Straight Line 3</span>
         <span class="btn btn-info fa fa-paint-brush" id="quad-curve" > 3 pt curve</span>
         <span class="btn btn-info fa fa-paint-brush" id="bezier-curve" > 4 pt curve</span>
-        <span class="btn btn-primary fa fa-square" id="drawing-circle">Circle</span>
+        <!--<span class="btn btn-primary fa fa-square" id="drawing-circle">Circle</span>-->
         <span class="btn btn-primary fa fa-square" id="drawing-circle2">Circle2</span>
+        <span class="btn btn-primary fa fa-square" id="drawing-ellipse">Ellipse</span>
         <span class="btn btn-info" id="eraser" >Erase</span>
         <span class="btn btn-info" id="clear" >Clear Screen</span>
         <!--<span class="btn btn-info" id="finish" >Finish</span>-->
@@ -138,6 +139,7 @@
     <script type='text/javascript' src="drawing-rectangle2.js"></script>
     <script type='text/javascript' src="drawing-circle.js"></script>
     <script type='text/javascript' src="drawing-circle2.js"></script>
+    <script type='text/javascript' src="drawing-ellipse.js"></script>
     <script type='text/javascript' src="eraser.js"></script>
     <script type='text/javascript'>
         currentFunction = new DrawingLine(contextReal,contextDraft);
@@ -170,6 +172,9 @@
         });
         $('#drawing-circle2').click(()=>{
             currentFunction = new DrawingCircle2(contextReal,contextDraft);
+        });
+        $('#drawing-ellipse').click(()=>{
+            currentFunction = new DrawingEllipse(contextReal,contextDraft);
         });
         $('#eraser').click(()=>{
             currentFunction = new Eraser(contextReal,contextDraft);

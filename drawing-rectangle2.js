@@ -214,8 +214,7 @@ class DrawingRectangle2 extends PaintFunction{
                             2: {x: this.cornerCP['2'].x + x_change , y: this.cornerCP['2'].y + y_change},
                             3: {x: this.cornerCP['3'].x + x_change , y: this.cornerCP['3'].y + y_change},
                             4: {x: this.cornerCP['4'].x + x_change , y: this.cornerCP['4'].y + y_change}};
-        this.centre_pt = {x: this.cornerCP['1'].x + (this.cornerCP['3'].x-this.cornerCP['1'].x)/2,
-                          y: this.cornerCP['1'].y + (this.cornerCP['3'].y-this.cornerCP['1'].y)/2}
+        this.centre_pt = {x: this.centre_pt.x + x_change , y: this.centre_pt.y + y_change};
         this.drawRect();
     }
 
