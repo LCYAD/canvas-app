@@ -27,42 +27,45 @@
     <div class="container-fluid" id="control-board"> <!--Try to put all the control stuff inside here -->
         <div class="col-lg-12 btn-default" id="brush-button">Brush</div>
     <div class="col-lg-12" id="brush-icons" style="display:none">
-            <div class="col-lg-4 fa fa-paint-brush btn-default" aria-hidden="true"></div>
-            <div class="col-lg-4 fa fa-pencil btn-default" aria-hidden="true"></div>
-            <div class="col-lg-4 fa fa-paint-brush btn-default" aria-hidden="true"></div>
+            <div class="col-lg-4 fa fa-paint-brush btn btn-default" id="drawing-line-smooth" aria-hidden="true"></div>
+            <div class="col-lg-4 fa fa-pencil btn btn-default" id="draw-s-line3"aria-hidden="true"></div>
+            <!-- empty function -->
+            <div class="col-lg-4 fa fa-paint-brush btn btn-default" aria-hidden="true"></div>
     
     </div>
 
         <div class="col-lg-12 btn-default" id="line-button">Line&curve</div>
     <div class="col-lg-12" id="line-icons" style="display:none">
-            <i class="fa fa-bars btn-default" aria-hidden="true"></i>
-            <i class="fa fa-arrows-h btn-default" aria-hidden="true"></i>
-            <i class="fa fa-bolt btn-default " aria-hidden="true"></i>
-            <i class="fa fa-minus btn-default" aria-hidden="true"></i>
+            <i class="fa fa-bars btn btn-default" id="draw-s-line3" aria-hidden="true"></i>
+            <i class="fa fa-arrows-h btn btn-default" id="quad-curve" aria-hidden="true"></i>
+            <i class="fa fa-bolt btn btn-default " id="bezier-curve" aria-hidden="true"></i>
+            <!-- empty function -->
+            <i class="fa fa-minus btn btn-default" id="" aria-hidden="true"></i>
     </div>
     <div class="col-lg-12 btn-default" id="shape-button">Shape</div>
     <div class="col-lg-12" id="shape-icons"style="display:none">
-            <i class="fa fa-pencil-square-o btn-default" aria-hidden="true"></i>
-            <i class="fa fa-circle-o btn-default" aria-hidden="true"></i>
-            <i class="fa fa-circle btn-default" aria-hidden="true"></i>
-    </div>
-    
-    
-    <div class="col-lg-6 col-md-6 col-sm-6 btn-secondary" id=""><i class="fa fa-header btn-default" aria-hidden="true"></i></div>
-    <div class="col-lg-6 col-md-6 col-sm-6 btn-secondary" id=""><i class="fa fa-eraser btn-default" aria-hidden="true"></i></div>
-    <div class="col-lg-6 col-md-6 col-sm-6 btn-secondary" id=""><i class="fa fa-undo btn-default" aria-hidden="true"></i></div>
-    <div class="col-lg-6 col-md-6 col-sm-6 btn-secondary" id=""><i class="fa fa-repeat btn-default" aria-hidden="true"></i></div>
-    <div class="col-lg-12 btn-secondary"><i class="fa fa-trash btn-default" aria-hidden="true"></i></div>
-    
-    <label for="color-input" id="color-label" style="background-color: red">Line color</label>
-    <input type="checkbox" id="color-input" unchecked></input>
-    
-    <div id="color-picker">
-      <canvas id="color-block" height="150" width="150"></canvas>
-      <canvas id="color-strip" height="150" width="30"></canvas>
-    </div>
+            <i class="fa fa-pencil-square-o btn btn-default " id="drawing-rectangle2" aria-hidden="true"></i>
+            <i class="fa fa-circle-o btn btn-default" id="drawing-circle2" aria-hidden="true"></i>
+            <!-- bugged function -->
+            <i class="fa fa-circle btn btn-default" id="drawing-ellipse" aria-hidden="true"></i>
+        </div>
+        <div class="col-lg-12 btn-default"><i class="fa fa-trash btn btn-default" aria-hidden="true"></i></div>
+        
+    <div class="col-lg-6 col-md-6 col-sm-6 btn-default" id=""><i class="fa fa-header" aria-hidden="true"></i></div>
+    <div class="col-lg-6 col-md-6 col-sm-6 btn-default" id=""><i class="fa fa-eraser" aria-hidden="true"></i></div>
 
+    <div class="col-lg-6  col-md-6 col-sm-6 btn-default" id=""><i class="fa fa-undo " aria-hidden="true"></i></div>
+    <div class="col-lg-6 col-md-6 col-sm-6 btn-default" id=""><i class="fa fa-repeat" aria-hidden="true"></i></div>
+    
+    <div class="col-lg-6 col-md-6 col-sm-6 btn-default" id="">FIll</div>
+    <div class="col-lg-6 col-md-6 col-sm-6 btn-default" id="">None</div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 btn-default" id="">BORDER</div>
+    <div class="col-lg-6 col-md-6 col-sm-6 btn-default" id="">none</div>
+    
+   
 </div>
+ <!-- container -->
  
    <!-- old buttons with id -->
             <div class="old-buttons" style="display:none">
@@ -81,7 +84,7 @@
         <div class="col-lg-12 btn-secondary" id="cancel" >Cancel</div>
         <div class="col-lg-12 btn-secondary" id="print" >Print</div>
     </div>
-    </div>
+    
 
     <div id="canvas-container">
         <canvas id="canvas-real" class="canvas"></canvas>
@@ -100,12 +103,18 @@
             <br>
             <span>Size : </span><span id="rotate_field" value="0">0</span><span>degree</span>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="rotate-slider-bar">
-                <div id="rotate-slider"></div>
-                <br>
-                <span>Size : </span><span id="rotate_field" value="0">0</span><span>degree</span>
-            </div>
 
+
+        <!-- color picker -->
+        <div class="picker" class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <label for="color-input" id="color-label" style="background-color: red"></label>
+        <input type="checkbox" id="color-input" unchecked></input>
+        
+        <div id="color-picker" >
+          <canvas id="color-block" height="100" width="100"></canvas>
+          <canvas id="color-strip" height="100" width="30"></canvas>
+        </div>
+    </div>
     </div>
 
     <!--draggable input box for text-->
