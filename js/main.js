@@ -1,7 +1,6 @@
 $(window).on('load', function(){
 
-    let canvas_log = new ActionLog(contextReal,contextDraft);
-    let canvasCoverage = 0.8;
+    let canvasCoverage = 0.7;
     let controlboardWidth = $('#control-board').width();
     let optionboxHeight = $('.option-box').height();
     
@@ -23,6 +22,15 @@ $(window).on('load', function(){
                              marginTop: `${canvas_height_margin + optionboxHeight}px`});
     $( "#canvas-draft" ).css({marginLeft: `${canvas_width_margin  + controlboardWidth}px`, 
                               marginTop: `${canvas_height_margin + optionboxHeight}px`});
+
+    //init the background of canvas to white
+    contextReal.save();
+    contextReal.fillStyle = contextDraft.fillStyle = "#FFFFFF";
+    contextReal.fillRect(0,0,canvas_width , canvas_height);
+    contextReal.fill();
+    contextDraft.restore();
+
+    let canvas_log = new ActionLog(contextReal,contextDraft);
 
     $('#size-slider').slider({
         orientation: "horizontal",
@@ -82,9 +90,15 @@ $(window).on('load', function(){
     $('#eraser').click(()=>{
         currentFunction = new Eraser(contextReal,contextDraft, canvas_log);
     });
+    $('#selector').click(()=>{
+        currentFunction = new Selector(contextReal,contextDraft, canvas_log);
+    });
     $('#clear').click(()=>{
-        contextReal.clearRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
-        canvas_log.saveState();
+        contextReal.save();
+        contextReal.fillStyle = contextDraft.fillStyle = "#FFFFFF";
+        contextReal.fillRect(0,0,canvas_width , canvas_height);
+        contextReal.fill();
+        contextReal.restore();
     });
     $('#undo').click(()=>{
         canvas_log.undo();
@@ -92,6 +106,12 @@ $(window).on('load', function(){
     $('#redo').click(()=>{
         canvas_log.redo();
     });
+
+    
+    /*$('#download').click(()=>{
+        var dt = canvasReal.toDataURL('image/jpeg');
+        this.href = dt;
+    });*/
 
     //Unused functions below
     /*
@@ -119,4 +139,33 @@ $(window).on('load', function(){
         contextReal.drawImage(img,x,y, w, h);
     });
     */
+});
+
+//resize function - reset the canvas and clear the undo redo array
+$(window).on('resize', ()=>{
+    
+    let canvasCoverage = 0.7;
+    let controlboardWidth = $('#control-board').width();
+    let optionboxHeight = $('.option-box').height();
+    
+    //Hiding current buttons or rotation
+    $('#cancel').hide();
+    $('#print').hide();
+    $('#rotate-slider-bar').hide();
+    $('#text-input').hide();
+
+    //Set the size for the canvas
+    let canvas_width = ($(window).width()-controlboardWidth)*canvasCoverage;
+    let canvas_width_margin = ($(window).width()-controlboardWidth)*(1-canvasCoverage)/2;
+    let canvas_height_margin = ($(window).height()-optionboxHeight)*(1-canvasCoverage)/2;
+    let canvas_height = ($(window).height()-optionboxHeight)*canvasCoverage;
+    $( "#canvas-real" )[0].width = $( "#canvas-draft" )[0].width = canvas_width;
+    $( "#canvas-real" )[0].height = $( "#canvas-draft" )[0].height = canvas_height;
+    $( "#canvas-real" ).css({marginLeft: `${canvas_width_margin  + controlboardWidth}px`, 
+                             marginTop: `${canvas_height_margin + optionboxHeight}px`});
+    $( "#canvas-draft" ).css({marginLeft: `${canvas_width_margin  + controlboardWidth}px`, 
+                              marginTop: `${canvas_height_margin + optionboxHeight}px`});
+
+    //Clear Real canvas screen
+    contextReal.clearRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
 });

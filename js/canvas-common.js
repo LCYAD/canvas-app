@@ -48,7 +48,8 @@ $('#canvas-draft').mouseenter(function(e){
 
 //load on Cancel is the mouse is up while outside of the canvas
 $(window).mouseup(function(e){
-    if ((left) && (e.target.id != 'print')){
+    console.log(e.target.id);
+    if ((left) && (e.target.id != 'print') && (e.target.id != 'download')){
         left = false;
         dragging = false;
         currentFunction.onCancel();
