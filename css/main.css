@@ -1,12 +1,8 @@
 body{
     font-size: 15px;
     font-family: 'Indie Flower', cursive;
-<<<<<<< HEAD
-    background: rgb(255, 255, 255);
-=======
     background: rgba(187, 214, 156, 0.767);
     color: black;
->>>>>>> a2d8004a062bb0eab6f208267807efa3de833ded
 }
 
 #control-board{
@@ -21,11 +17,7 @@ body{
     position: absolute;
 }
 
-<<<<<<< HEAD
 #control-board .col-lg-12 {
-=======
-#control-board .btn-secondary{
->>>>>>> a2d8004a062bb0eab6f208267807efa3de833ded
     padding: 10px 0px 10px 0px;
     border: 1px solid black;
     text-align: center;
