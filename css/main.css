@@ -2,6 +2,7 @@ body{
     font-size: 15px;
     font-family: 'Indie Flower', cursive;
     background: rgba(187, 214, 156, 0.767);
+    color: black;
 }
 
 #control-board{
@@ -16,12 +17,17 @@ body{
     position: absolute;
 }
 
-#control-board .col-lg-12{
+#control-board .btn-secondary{
     padding: 10px 0px 10px 0px;
     border: 1px solid black;
     text-align: center;
     font-weight: 600;
     outline: none;
+}
+
+#control-board .btn-secondary a{
+    text-decoration: none;
+    color: black;
 }
 
 .control_pt{
@@ -49,7 +55,7 @@ input{
 
 .canvas {
     position: absolute; 
-    border: 2px dotted;  
+    border: 2px dotted;
 }
 
 #text-input{

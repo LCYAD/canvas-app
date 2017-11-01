@@ -22,7 +22,11 @@ class ActionLog{
         if (this.undo_log.length != 0){
             this.redo_log.push(this.currentState);
             this.currentState = this.undo_log.pop();
-            this.context.clearRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
+            this.context.save();
+            this.context.fillStyle = "#FFFFFF";
+            this.context.fillRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
+            this.context.fill();
+            this.context.restore();
             this.context.putImageData(this.currentState, 0, 0);
             console.log(this.undo_log.length);
             console.log(this.redo_log.length);
@@ -33,7 +37,11 @@ class ActionLog{
         if (this.redo_log.length != 0){
             this.undo_log.push(this.currentState);
             this.currentState = this.redo_log.pop();
-            this.context.clearRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
+            this.context.save();
+            this.context.fillStyle = "#FFFFFF";
+            this.context.fillRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
+            this.context.fill();
+            this.context.restore();
             this.context.putImageData(this.currentState, 0, 0);
             console.log(this.undo_log.length);
             console.log(this.redo_log.length);
