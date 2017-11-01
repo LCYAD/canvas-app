@@ -1,5 +1,20 @@
 body{
-    font-size: 10px;
+    font-size: 12px;
+}
+
+#control-board{
+    position: absolute;
+    height: 100%;
+    width: 150px;
+    margin: 0px;
+}
+
+#canvas-container{
+    position: inline-block;
+}
+
+#control-board .col-lg-12{
+    margin: 20px 0px 20px 0px;
 }
 
 .control_pt{
@@ -12,4 +27,14 @@ body{
 input{
     height: 50px;
     width: 200px;
+}
+
+.canvas {
+    position: absolute; 
+    border: 2px dotted;  
+    margin: 100px;
+}
+
+#text-input{
+    white-space: pre-wrap;
 }

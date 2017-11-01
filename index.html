@@ -19,50 +19,33 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-
-    <script>
-        
-        
-    </script>
 </head>
 <body>
-    <div id="canvas-container">
-        <canvas id="canvas-real" class="canvas" style="position: absolute; border: 2px dotted;  margin: 100px;"></canvas>
-        <canvas id="canvas-draft" class="canvas" style="position: absolute; border: 2px dotted; margin: 100px;"></canvas>
-        <!--<canvas id="canvas-draft2" class="canvas" style="position: absolute; border: 2px dotted; margin: 50px;"></canvas>
-        <div id="control_pt_1" class="ui-widget-content control_pt" style="position: absolute; top: 0; left: 0;"></div>
-        <div id="control_pt_2" class="ui-widget-content control_pt" style=" position: absolute; top: 0; left: 0;"></div>
-        <div id="control_pt_3" class="ui-widget-content control_pt"></div>
-        <div id="control_pt_4" class="ui-widget-content control_pt"></div>
-        <div id="control_pt_5" class="ui-widget-content control_pt"></div>
-        <div id="control_pt_6" class="ui-widget-content control_pt"></div>
-        <div id="control_pt_7" class="ui-widget-content control_pt"></div>
-        <div id="control_pt_8" class="ui-widget-content control_pt"></div>-->    
+
+    <div id="control-board"> <!--Try to put all the control stuff inside here -->
+        <div class="col-lg-12"><button id="drawing-rectangle2">Rectangle</button></div>
+        <div class="col-lg-12"><button  id="drawing-line-smooth" >Line Smooth</button></div>
+        <div class="col-lg-12"><button  id="draw-s-line3" >Straight Line</button></div>
+        <div class="col-lg-12"><button  id="quad-curve" > 3 pt curve</button></div>
+        <div class="col-lg-12"><button id="bezier-curve" > 4 pt curve</button></div>
+        <div class="col-lg-12"><button  id="drawing-circle2">Circle</button></div>
+        <div class="col-lg-12"><button  id="drawing-ellipse">Ellipse</button></div>
+        <div class="col-lg-12"><button  id="insert-text">Text</button></div>
+        <div class="col-lg-12"><button id="eraser" >Erase</button></div>
+        <div class="col-lg-12"><button  id="clear" >Clear Screen</button></div>
+        <div class="col-lg-12"><button  id="undo" >Undo</button></div>
+        <div class="col-lg-12"><button id="redo" >Redo</button></div>
+        <div class="col-lg-12"><button  id="cancel" >Cancel</button></div>
+        <div class="col-lg-12"><button id="print" >Print</button></div>
     </div>
 
-    <div class="buttons" style="width: 100%">
-        <!--<span class="btn btn-primary fa fa-square" id="drawing-rectangle">Rectangle</span>-->
-        <span class="btn btn-primary fa fa-square" id="drawing-rectangle2">Rectangle2</span>
-        <span class="btn btn-info fa fa-paint-brush" id="drawing-line" >Line Original</span>
-        <span class="btn btn-info fa fa-paint-brush" id="drawing-line-smooth" >Line Smooth</span>
-        <!--<span class="btn btn-info fa fa-paint-brush" id="print2" >Print2</span>-->
-        <!--<span class="btn btn-info fa fa-paint-brush" id="draw-s-line" >Straight Line</span>-->
-        <!--<span class="btn btn-info fa fa-paint-brush" id="draw-s-line2" >Straight Line 2</span>-->
-        <span class="btn btn-info fa fa-paint-brush" id="draw-s-line3" >Straight Line 3</span>
-        <span class="btn btn-info fa fa-paint-brush" id="quad-curve" > 3 pt curve</span>
-        <span class="btn btn-info fa fa-paint-brush" id="bezier-curve" > 4 pt curve</span>
-        <!--<span class="btn btn-primary fa fa-square" id="drawing-circle">Circle</span>-->
-        <span class="btn btn-primary fa fa-square" id="drawing-circle2">Circle2</span>
-        <span class="btn btn-primary fa fa-square" id="drawing-ellipse">Ellipse</span>
-        <span class="btn btn-info" id="eraser" >Erase</span>
-        <span class="btn btn-info" id="clear" >Clear Screen</span>
-        <span class="btn btn-info" id="undo" >Undo</span>
-        <span class="btn btn-info" id="redo" >Redo</span>
-        <!--<span class="btn btn-info" id="finish" >Finish</span>-->
-        <span class="btn btn-info" id="cancel" >Cancel</span>
-        <span class="btn btn-info" id="print" >Print</span>
+    <div id="canvas-container">
+        <canvas id="canvas-real" class="canvas"></canvas>
+        <canvas id="canvas-draft" class="canvas"></canvas>
     </div>
-    <div class="container-fluid">
+
+
+    <div class="container-fluid" style="margin-top: 10px;">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div id="size-slider"></div><span>Size : </span><span id="size_field" value="5">5</span><span>px</span>
         </div>
@@ -71,31 +54,23 @@
         </div>
     </div>
 
+    <!--draggable input box for text-->
+    <div id="text-input"><input name="insert-text" type="text"></div>
     
 
-    <div id="draggable" class="ui-widget-content" style="height: 300px; width: 400px;">
-        <img src="4-1.jpg" class="img-responsive" id="image">
-    </div>
-
-    <script type='text/javascript' src="main.js"></script>
-    <script type='text/javascript' src="canvas-common.js"></script>
-    <script type='text/javascript' src="actionlog.js"></script>
-    <script type='text/javascript' src="drawing-line.js"></script>
-    <script type='text/javascript' src="drawing-line-smooth.js"></script>
-    <script type='text/javascript' src="draw-s-line.js"></script>
-    <!--<script type='text/javascript' src="draw-s-line2.js"></script>-->
-    <script type='text/javascript' src="draw-s-line3.js"></script>
-    <script type='text/javascript' src="quad-curve.js"></script>
-    <script type='text/javascript' src="bezier-curve.js"></script>
-    <script type='text/javascript' src="drawing-rectangle.js"></script>
-    <script type='text/javascript' src="drawing-rectangle2.js"></script>
-    <script type='text/javascript' src="drawing-circle.js"></script>
-    <script type='text/javascript' src="drawing-circle2.js"></script>
-    <script type='text/javascript' src="drawing-ellipse.js"></script>
-    <script type='text/javascript' src="eraser.js"></script>
-    <script type='text/javascript'>
-        
-    </script>
+    <!-- all JS function used in the canvas app -->
+    <script type='text/javascript' src="js/main.js"></script>
+    <script type='text/javascript' src="js/canvas-common.js"></script>
+    <script type='text/javascript' src="js/actionlog.js"></script>
+    <script type='text/javascript' src="js/drawing-line-smooth.js"></script>
+    <script type='text/javascript' src="js/draw-s-line3.js"></script>
+    <script type='text/javascript' src="js/quad-curve.js"></script>
+    <script type='text/javascript' src="js/bezier-curve.js"></script>
+    <script type='text/javascript' src="js/drawing-rectangle2.js"></script>
+    <script type='text/javascript' src="js/drawing-circle2.js"></script>
+    <script type='text/javascript' src="js/drawing-ellipse.js"></script>
+    <script type='text/javascript' src="js/eraser.js"></script>
+    <script type='text/javascript' src="insert-text.js"></script>
 </body>
 </html>
     

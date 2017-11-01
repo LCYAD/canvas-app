@@ -27,16 +27,17 @@ class InsertText extends PaintFunction{
     }
     
     onMouseDown(coord,event){
-        console.log("outside Canvas is "+ outsideCanvas)
+        /*console.log("outside Canvas is "+ outsideCanvas)
         if (outsideCanvas === true) {
             console.log("click outside")
             $('input[type=text]').css({display: 'none'})
             $('input[type=text]').val("")
-        } else {
-            console.log("click Inside")
-        $("input[name='insert-text']").css({display: 'inline-block', top: coord[1] + offset.top, left: coord[0] + offset.left});
+        } else{ */
+        console.log("click Inside")
+        console.log(`Text box positioned at x: ${coord[0] + offset.left}  y: ${coord[1] + offset.top} `)
+        $("#text-input").show().css({top: coord[1] + offset.top, left: coord[0] + offset.left});
         lastPosition = [coord[0] ,(coord[1] + $("input[name='insert-text']").height()/2)]
-        }
+        //}
         // $("input[name='insert-text']").css({display: 'inline-block', top: coord[1], left: coord[0]});
         // textboxOnPage = true
         // }
@@ -49,10 +50,13 @@ class InsertText extends PaintFunction{
     onDragging(){}
     onMouseMove(){}
     onMouseUp(){
-        $("input[name='insert-text']").focus()
+        $("input[name='insert-text']").focus();
     }
     onMouseLeave(){}
     onMouseEnter(){}
+    onCancel(){
+        $("input[name='insert-text']").hide();
+    }
     onEnterPress(coord,event){
         console.log(`enter being pressed`);
         this.contextReal.font = "30px Arial" //different from html

@@ -12,6 +12,7 @@ let left = false;
 $('#canvas-draft').mousedown(function(e){
     let mouseX = e.pageX - this.offsetLeft;
     let mouseY = e.pageY - this.offsetTop;
+    console.log(`Mouse position is - x: ${e.pageX}, y: ${e.pageY}`)
     currentFunction.onMouseDown([mouseX,mouseY],e);
     dragging = true;
 });
@@ -60,6 +61,7 @@ $(window).mouseup(function(e){
         $("#rotate_field").val(0);
     }
 });
+
 
 /*control points event
 $('.control_pt').mousedown(function(e){
@@ -116,4 +118,5 @@ class PaintFunction{
     onChange(){}
     onPrint(){}
     onRotate(){}
+    onEnterPress(){}
 }    

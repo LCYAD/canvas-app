@@ -1,12 +1,12 @@
 var colorBlock = document.getElementById('color-block');
-var ctx1 = colorBlock.getContext('2d');
-var width1 = colorBlock.width;
-var height1 = colorBlock.height;
+var colorBlockContext = colorBlock.getContext('2d');
+var blockWidth = colorBlock.width;
+var blockHeight = colorBlock.height;
 
 var colorStrip = document.getElementById('color-strip');
-var ctx2 = colorStrip.getContext('2d');
-var width2 = colorStrip.width;
-var height2 = colorStrip.height;
+var colorStripContext = colorStrip.getContext('2d');
+var stripWidth= colorStrip.width;
+var stripHeight = colorStrip.height;
 
 var colorLabel = document.getElementById('color-label');
 
@@ -15,44 +15,44 @@ var y = 0;
 var drag = false;
 var rgbaColor = 'rgba(255,0,0,1)';
 
-ctx1.rect(0, 0, width1, height1);
+colorBlockContext.rect(0, 0, blockWidth, blockHeight);
 fillGradient();
 
-ctx2.rect(0, 0, width2, height2);
-var grd1 = ctx2.createLinearGradient(0, 0, 0, height1);
-grd1.addColorStop(0, 'rgba(255, 0, 0, 1)');
-grd1.addColorStop(0.17, 'rgba(255, 255, 0, 1)');
-grd1.addColorStop(0.34, 'rgba(0, 255, 0, 1)');
-grd1.addColorStop(0.51, 'rgba(0, 255, 255, 1)');
-grd1.addColorStop(0.68, 'rgba(0, 0, 255, 1)');
-grd1.addColorStop(0.85, 'rgba(255, 0, 255, 1)');
-grd1.addColorStop(1, 'rgba(255, 0, 0, 1)');
-ctx2.fillStyle = grd1;
-ctx2.fill();
+colorStripContext.rect(0, 0, width2, stripHeight);
+var colorStripGrid = colorStripContext.createLinearGradient(0, 0, width2, 0);
+colorStripGrid.addColorStop(0, 'rgba(255, 0, 0, 1)');
+colorStripGrid.addColorStop(0.17, 'rgba(255, 255, 0, 1)');
+colorStripGrid.addColorStop(0.34, 'rgba(0, 255, 0, 1)');
+colorStripGrid.addColorStop(0.51, 'rgba(0, 255, 255, 1)');
+colorStripGrid.addColorStop(0.68, 'rgba(0, 0, 255, 1)');
+colorStripGrid.addColorStop(0.85, 'rgba(255, 0, 255, 1)');
+colorStripGrid.addColorStop(1, 'rgba(255, 0, 0, 1)');
+colorStripContext.fillStyle = colorStripGrid;
+colorStripContext.fill();
 
 function click(e) {
   x = e.offsetX;
   y = e.offsetY;
-  var imageData = ctx2.getImageData(x, y, 1, 1).data;
+  var imageData = colorStripContext.getImageData(x, y, 1, 1).data;
   rgbaColor = 'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',1)';
   fillGradient();
 }
 
 function fillGradient() {
-  ctx1.fillStyle = rgbaColor;
-  ctx1.fillRect(0, 0, width1, height1);
+  colorBlockContext.fillStyle = rgbaColor;
+  colorBlockContext.fillRect(0, 0, blockWidth, blockHeight);
 
-  var grdWhite = ctx2.createLinearGradient(0, 0, width1, 0);
+  var grdWhite = colorStripContext.createLinearGradient(0, 0, blockWidth, 0);
   grdWhite.addColorStop(0, 'rgba(255,255,255,1)');
   grdWhite.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx1.fillStyle = grdWhite;
-  ctx1.fillRect(0, 0, width1, height1);
+  colorBlockContext.fillStyle = grdWhite;
+  colorBlockContext.fillRect(0, 0, blockWidth, blockHeight);
 
-  var grdBlack = ctx2.createLinearGradient(0, 0, 0, height1);
+  var grdBlack = colorStripContext.createLinearGradient(0, 0, 0, blockHeight);
   grdBlack.addColorStop(0, 'rgba(0,0,0,0)');
   grdBlack.addColorStop(1, 'rgba(0,0,0,1)');
-  ctx1.fillStyle = grdBlack;
-  ctx1.fillRect(0, 0, width1, height1);
+  colorBlockContext.fillStyle = grdBlack;
+  colorBlockContext.fillRect(0, 0, blockWidth, blockHeight);
 }
 
 function mousedown(e) {
@@ -73,13 +73,12 @@ function mouseup(e) {
 function changeColor(e) {
   x = e.offsetX;
   y = e.offsetY;
-  var imageData = ctx1.getImageData(x, y, 1, 1).data;
+  var imageData = colorBlockContext.getImageData(x, y, 1, 1).data;
   rgbaColor = 'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',1)';
   colorLabel.style.backgroundColor = rgbaColor;
 }
 
 colorStrip.addEventListener("click", click, false);
-
 colorBlock.addEventListener("mousedown", mousedown, false);
 colorBlock.addEventListener("mouseup", mouseup, false);
 colorBlock.addEventListener("mousemove", mousemove, false);

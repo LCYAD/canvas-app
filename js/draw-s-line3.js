@@ -111,6 +111,7 @@ class Draw_S_Line3 extends PaintFunction{  //using one canvas draft only
             this.contextReal.closePath();
             this.contextReal.stroke();
             this.canvas_log.saveState();   
+            $('#cancel').hide();
         }
     }
 

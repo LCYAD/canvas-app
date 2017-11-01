@@ -84,6 +84,7 @@ class DrawingEllipse extends PaintFunction{
             this.move = false;
         } else{
             console.log('ending..')
+            this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
             //draw the points on the real canvas
             this.contextReal.beginPath();
             this.contextReal.ellipse(this.centre_pt.x, this.centre_pt.y, this.ellipseWidth, this.ellipseHeight, 
