@@ -10,12 +10,13 @@ function angleBetween(point1, point2) {
 
 class BoardEdge extends PaintFunction{
 
-    constructor(contextReal){
+    constructor(contextReal,contextDraft,canvas_log){
         super();
         this.context = contextReal; 
         this.lastPoint = {};
         this.currentPoint = {};
         this.isDrawing = false;
+        this.canvas_log = canvas_log;
         
     }
     
@@ -47,7 +48,9 @@ class BoardEdge extends PaintFunction{
     }
 
     onMouseMove(){}
-    onMouseUp(){}
+    onMouseUp(coord,event,canvas_log){ 
+        this.canvas_log.saveState()       
+    }
     onMouseLeave(){}
     onMouseEnter(){}
 
