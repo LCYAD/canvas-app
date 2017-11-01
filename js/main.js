@@ -1,6 +1,10 @@
 $(window).on('load', function(){
 
     let canvas_log = new ActionLog(contextReal,contextDraft);
+    let canvasCoverage = 0.8;
+    let controlboardWidth = $('#control-board').width();
+    let optionboxHeight = $('.option-box').height();
+    
 
     //Hiding current buttons or rotation
     $('#cancel').hide();
@@ -9,10 +13,16 @@ $(window).on('load', function(){
     $('#text-input').draggable().hide();
 
     //Set the size for the canvas
-    let canvas_width = $(window).width()-200;
-    let canvas_height = $(window).height()-200;
+    let canvas_width = ($(window).width()-controlboardWidth)*canvasCoverage;
+    let canvas_width_margin = ($(window).width()-controlboardWidth)*(1-canvasCoverage)/2;
+    let canvas_height_margin = ($(window).height()-optionboxHeight)*(1-canvasCoverage)/2;
+    let canvas_height = ($(window).height()-optionboxHeight)*canvasCoverage;
     $( "#canvas-real" )[0].width = $( "#canvas-draft" )[0].width = canvas_width;
     $( "#canvas-real" )[0].height = $( "#canvas-draft" )[0].height = canvas_height;
+    $( "#canvas-real" ).css({marginLeft: `${canvas_width_margin  + controlboardWidth}px`, 
+                             marginTop: `${canvas_height_margin + optionboxHeight}px`});
+    $( "#canvas-draft" ).css({marginLeft: `${canvas_width_margin  + controlboardWidth}px`, 
+                              marginTop: `${canvas_height_margin + optionboxHeight}px`});
 
     $('#size-slider').slider({
         orientation: "horizontal",

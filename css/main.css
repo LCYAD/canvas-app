@@ -1,5 +1,7 @@
 body{
-    font-size: 12px;
+    font-size: 15px;
+    font-family: 'Indie Flower', cursive;
+    background: rgba(187, 214, 156, 0.767);
 }
 
 #control-board{
@@ -7,14 +9,19 @@ body{
     height: 100%;
     width: 150px;
     margin: 0px;
+    background: rgba(168, 155, 155, 0.788);
 }
 
 #canvas-container{
-    position: inline-block;
+    position: absolute;
 }
 
 #control-board .col-lg-12{
-    margin: 20px 0px 20px 0px;
+    padding: 10px 0px 10px 0px;
+    border: 1px solid black;
+    text-align: center;
+    font-weight: 600;
+    outline: none;
 }
 
 .control_pt{
@@ -22,6 +29,17 @@ body{
     width: 15px; 
     border-radius: 50%;
     background: rgba(128, 128, 128);
+}
+
+.option-box{
+    padding: 0px 0px 0px 50px;
+    margin-left: 150px;
+    background: rgba(179, 106, 106, 0.5);
+    height: 100px;
+}
+
+.option-box div{
+    margin-top: 20px;
 }
 
 input{
@@ -32,7 +50,6 @@ input{
 .canvas {
     position: absolute; 
     border: 2px dotted;  
-    margin: 100px;
 }
 
 #text-input{
