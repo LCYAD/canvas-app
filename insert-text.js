@@ -11,12 +11,13 @@ function fontStyle(style,size){
 }
 
 class InsertText extends PaintFunction{
-    constructor(contextReal,contextDraft){
+    constructor(contextReal,contextDraft,canvas_log){
         super();
         this.contextReal = contextReal;
         this.contextDraft = contextDraft;
-        this.offset = $('#canvas-draft').offset()
-        this.lastPosition = [0,0]     
+        this.offset = $('#canvas-draft').offset();
+        this.lastPosition = [0,0]; 
+        this.canvas_log = canvas_log;    
     }
     
     onMouseDown(coord,event){
@@ -48,6 +49,7 @@ class InsertText extends PaintFunction{
         this.contextReal.fillText($('input[type=text]').val(),this.lastPosition[0],this.lastPosition[1]+($('input[type=text]').height()/2))
         $('input[type=text]').css({display: 'none'})
         $('input[type=text]').val("")
+        this.canvas_log.saveState();
     }
     //context.fillText(text,x,y,maxWidth);
 }

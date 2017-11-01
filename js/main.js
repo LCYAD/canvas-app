@@ -76,6 +76,12 @@ $(window).on('load', function(){
     $('#drawing-ellipse').click(()=>{
         currentFunction = new DrawingEllipse(contextReal,contextDraft, canvas_log);
     });
+    $('#e-edge').click(()=>{
+        currentFunction = new EEdge(contextReal,contextDraft, canvas_log);
+    });
+    $('#board-edge').click(()=>{
+        currentFunction = new BoardEdge(contextReal,contextDraft, canvas_log);
+    });
     $('#insert-text').click(()=>{
         currentFunction = new InsertText(contextReal,contextDraft, canvas_log);
     });

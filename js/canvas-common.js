@@ -3,8 +3,8 @@ let contextReal = canvasReal.getContext('2d');
 let canvasDraft = document.getElementById('canvas-draft');
 let contextDraft = canvasDraft.getContext('2d');
 /*let canvasDraft2 = document.getElementById('canvas-draft2');
-let contextDraft2 = canvasDraft2.getContext('2d');*/
-let currentFunction;
+let contextDraft2 = nvasDraft2.getContext('2d');*/
+// let currentFunction, canva_log ;
 let dragging = false;
 let left = false;
 

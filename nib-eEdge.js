@@ -18,12 +18,13 @@ function rotateAndPaintImage ( context, image, angleInRad , positionX, positionY
 
 class EEdge extends PaintFunction{
 
-    constructor(contextReal){
+    constructor(contextReal,contextDraft,canvas_log){
         super();
         this.context = contextReal; 
         this.lastPoint = {};
         this.currentPoint = {};
         this.isDrawing = false;
+        this.canvas_log = canvas_log;
     }
     
     onMouseDown(coord,event){  
@@ -32,7 +33,7 @@ class EEdge extends PaintFunction{
         // this.context.drawImage(img,coord[0] ,coord[1], 20, 50)
     }
 
-    onDragging(coord,event){
+    onDragging(coord,event,canvas_log){
         if (!this.isDrawing) return;
 
         this.currentPoint = { x: coord[0], y: coord[1] };
@@ -42,7 +43,6 @@ class EEdge extends PaintFunction{
         //     let x = this.lastPoint.x + (Math.sin(angle) * i);
         //     let y = this.lastPoint.y + (Math.cos(angle) * i);
                     
-
         for (var i = 0; i < dist; i++) {
             let x = this.lastPoint.x  + (Math.sin(angle) * i);
             let y = this.lastPoint.y  + (Math.cos(angle) * i);            
@@ -51,13 +51,15 @@ class EEdge extends PaintFunction{
             //drawImage(image, dx, dy, dw, dh) dw dh = [pen size]
             rotateAndPaintImage(this.context,eNibHead, 45, x, y, 20, 30, 50, 80 );
             //rotateAndPaintImage(context, image, angleInRad , positionX, positionY, axisX, axisY, dw, dh) dw dh = [pen size]
-
+            //this.canvas_log.saveState();   
         }
         this.lastPoint = this.currentPoint
     }
 
     onMouseMove(){}
-    onMouseUp(){}
+    onMouseUp(coord,event,canvas_log){ 
+        this.canvas_log.saveState()       
+    }
     onMouseLeave(){}
     onMouseEnter(){}
 
