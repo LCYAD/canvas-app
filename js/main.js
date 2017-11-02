@@ -9,9 +9,13 @@ $(window).on('load', function(){
     $('#cancel').hide();
     $('#print').hide();
     $('#rotate-slider-bar').hide();
+    $("#imagebrush-rotation-slider-bar").hide();
     $('#text-input').draggable().hide();
     
+<<<<<<< HEAD
 
+=======
+>>>>>>> 324ad3819c4f4c4b3aadca6becc1c1bb754b351f
     //Set the size for the canvas
     let canvas_width = ($(window).width()-controlboardWidth)*canvasCoverage;
     let canvas_width_margin = ($(window).width()-controlboardWidth)*(1-canvasCoverage)/2;
@@ -50,8 +54,6 @@ $(window).on('load', function(){
         }
     });
 
-    var sizeVal = $('#size-slider').slider("value") 
-
     $('#rotate-slider').slider({
         orientation: "horizontal",
         range: false,
@@ -65,22 +67,20 @@ $(window).on('load', function(){
             $("#rotate_field").val(ui.value);
             currentFunction.onRotate(ui.value);
         }
-
-        
     });
 
     $('#imagebrush-rotation-slider').slider({
         orientation: "horizontal",
         range: false,
         min: 0,
-        max: 359,
+        max: 90,
         value: 0,
-        step: 15,
+        step: 5,
         animate: true,
         slide: function(event, ui){
             $("#image_degree_field").text(ui.value);
             $("#image_degree_field").val(ui.value);
-            currentFunction.onRotate(ui.value);
+            currentFunction.onImageRotate(ui.value);
         }
 
         
@@ -89,7 +89,11 @@ $(window).on('load', function(){
     //drawing function
     currentFunction = new DrawingLineSmooth(contextReal,contextDraft, canvas_log);
     
-
+    $(window).click(()=>{
+        if (currentFunction.constructor.name !== "BoardEdge" && currentFunction.constructor.name !=="EEdge"){
+            $("#imagebrush-rotation-slider-bar").hide();
+        }    
+    })
     $('#drawing-rectangle2').click(()=>{
         currentFunction = new DrawingRectangle2(contextReal,contextDraft, canvas_log);
     });
@@ -113,9 +117,11 @@ $(window).on('load', function(){
     });
     $('#e-edge').click(()=>{
         currentFunction = new EEdge(contextReal,contextDraft, canvas_log);
+        $("#imagebrush-rotation-slider-bar").show()
     });
     $('#board-edge').click(()=>{
         currentFunction = new BoardEdge(contextReal,contextDraft, canvas_log);
+        $("#imagebrush-rotation-slider-bar").show()
     });
     $('#insert-text').click(()=>{
         currentFunction = new InsertText(contextReal,contextDraft, canvas_log);
@@ -174,8 +180,8 @@ $(window).on('load', function(){
         contextReal.drawImage(img,x,y, w, h);
     });
     */
-});
 
+})
 //resize function - reset the canvas and clear the undo redo array
 $(window).on('resize', ()=>{
     
@@ -204,4 +210,6 @@ $(window).on('resize', ()=>{
 
     //Clear Real canvas screen
     contextReal.clearRect(0,0,$('#canvas-real').width(), $('#canvas-real').height());
+
+
 });

@@ -36,15 +36,16 @@ class BoardEdge extends PaintFunction{
         //     let x = this.lastPoint.x + (Math.sin(angle) * i);
         //     let y = this.lastPoint.y + (Math.cos(angle) * i);
                     
-        this.BrushSizeX =  parseInt($("#size_field").val())+10
-        this.BrushSizeY =  parseInt($("#size_field").val())+25
+        this.brushSizeX =  parseInt($("#size_field").val())+7
+        this.brushSizeY =  parseInt($("#size_field").val())+15
+        this.brushAngle =  parseInt($("#image_degree_field").val())
 
         for (var i = 0; i < dist; i++) {
             let x = this.lastPoint.x  + (Math.sin(angle) * i);
             let y = this.lastPoint.y  + (Math.cos(angle) * i);            
             // this.context.scale(2,2);
-            this.context.drawImage(flat,x ,y, this.BrushSizeX, this.BrushSizeY);
-            //drawImage(image, dx, dy, dw, dh) dw dh = [pen size]
+            rotateAndPaintImage(this.context,flat, this.brushAngle, x, y, 20, 30, this.brushSizeX, this.brushSizeY);
+            //rotateAndPaintImage(context, image, angleInRad , positionX, positionY, axisX, axisY, dw, dh) dw dh = [pen size]  
         }
         this.lastPoint = this.currentPoint
     }
