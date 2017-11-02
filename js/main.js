@@ -31,6 +31,8 @@ $(window).on('load', function(){
     contextDraft.restore();
 
     let canvas_log = new ActionLog(contextReal,contextDraft);
+    
+
 
     $('#size-slider').slider({
         orientation: "horizontal",
@@ -46,6 +48,9 @@ $(window).on('load', function(){
             currentFunction.onChange(ui.value);
         }
     });
+
+    var sizeVal = $('#size-slider').slider("value") 
+
     $('#rotate-slider').slider({
         orientation: "horizontal",
         range: false,
@@ -63,6 +68,8 @@ $(window).on('load', function(){
 
     //drawing function
     currentFunction = new DrawingLineSmooth(contextReal,contextDraft, canvas_log);
+    
+
     $('#drawing-rectangle2').click(()=>{
         currentFunction = new DrawingRectangle2(contextReal,contextDraft, canvas_log);
     });
@@ -112,6 +119,8 @@ $(window).on('load', function(){
     $('#redo').click(()=>{
         canvas_log.redo();
     });
+
+     //Reset and hide input box when current function change
 
     
     /*$('#download').click(()=>{

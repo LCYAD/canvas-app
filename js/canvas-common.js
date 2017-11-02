@@ -45,6 +45,7 @@ $('#canvas-draft').mouseenter(function(e){
     let mouseY = e.pageY - this.offsetTop;
     currentFunction.onMouseEnter([mouseX,mouseY],e);
 });
+
 $(window).keypress(function(e) {
     let mouseX = e.pageX - this.offsetLeft;
     let mouseY = e.pageY - this.offsetTop;
@@ -56,7 +57,7 @@ $(window).keypress(function(e) {
 //load on Cancel is the mouse is up while outside of the canvas
 $(window).mouseup(function(e){
     console.log(e.target.id);
-    if ((left) && (e.target.id != 'print') && (e.target.id != 'download')){
+    if ((left) && (e.target.id != 'print') && (e.target.id != 'download') && (e.target.id != 'canvas-draft') && (e.target.id != 'input-box')){
         left = false;
         dragging = false;
         currentFunction.onCancel();
@@ -127,4 +128,5 @@ class PaintFunction{
     onPrint(){}
     onRotate(){}
     onEnterPress(){}
+    onColorChange(){}
 }    
