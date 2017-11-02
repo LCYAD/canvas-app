@@ -18,7 +18,7 @@ class Draw_S_Line3 extends PaintFunction{  //using one canvas draft only
     
     onMouseDown(coord,event){
         //setting style
-        this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "#df4b26";
+        this.contextDraft.strokeStyle = this.contextReal.strokeStyle = rgbaColor;
         this.contextDraft.lineJoin = this.contextReal.lineJoin = "round";
         this.contextDraft.lineCap = this.contextReal.lineCap = "round";
         this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());
@@ -151,7 +151,7 @@ class Draw_S_Line3 extends PaintFunction{  //using one canvas draft only
         if (this.phase_adjust){
             this.contextDraft.clearRect(0,0,canvasDraft.width,canvasDraft.height);
             //refresh setting
-            this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "#df4b26";
+            this.contextDraft.strokeStyle = this.contextReal.strokeStyle = rgbaColor;
             this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());
             //redraw curve
             this.contextDraft.beginPath();

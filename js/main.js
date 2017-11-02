@@ -10,7 +10,7 @@ $(window).on('load', function(){
     $('#print').hide();
     $('#rotate-slider-bar').hide();
     $('#text-input').draggable().hide();
-    $('#imagebrush-rotation-slider-bar').hide();
+    
 
     //Set the size for the canvas
     let canvas_width = ($(window).width()-controlboardWidth)*canvasCoverage;

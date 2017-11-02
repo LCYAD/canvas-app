@@ -10,7 +10,7 @@ class DrawingLineSmooth extends PaintFunction{
     }
 
     onMouseDown(coord,event){
-        this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "black";
+        this.contextDraft.strokeStyle = this.contextReal.strokeStyle = rgbaColor;
         this.contextDraft.lineJoin = this.contextDraft.lineCap = "round";
         this.contextReal.lineJoin = this.contextReal.lineCap = "round";
         this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());

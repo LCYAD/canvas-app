@@ -1,5 +1,5 @@
 var flat = new Image(10,20);
-flat.src = 'assets/img/slash.png';
+flat.src = 'assets/img/slash2.png';
 
 function distanceBetween(point1, point2) {
     return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));

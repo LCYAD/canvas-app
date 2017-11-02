@@ -25,7 +25,7 @@ class DrawingEllipse extends PaintFunction{
     
     onMouseDown(coord,event){
         //setting style
-        this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "grey";
+        this.contextDraft.strokeStyle = this.contextReal.strokeStyle = rgbaColor;
         this.contextDraft.lineJoin = this.contextReal.lineJoin = "round";
         this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());
         this.contextDraft.fillStyle = this.contextReal.fillStyle = "#f44";
@@ -125,7 +125,7 @@ class DrawingEllipse extends PaintFunction{
     onChange(){
         if (this.phase_adjust){
             //refresh setting
-            this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "grey";
+            this.contextDraft.strokeStyle = this.contextReal.strokeStyle = rgbaColor;
             this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());
             //redraw curve
             this.drawEllipse();

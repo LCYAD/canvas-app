@@ -22,7 +22,7 @@ class DrawingCircle2 extends PaintFunction{
     
     onMouseDown(coord,event){
         //setting style
-        this.contextDraft.strokeStyle = this.contextReal.strokeStyle = "grey";
+        this.contextDraft.strokeStyle = this.contextReal.strokeStyle = rgbaColor;
         this.contextDraft.lineJoin = this.contextReal.lineJoin = "round";
         this.contextDraft.lineWidth = this.contextReal.lineWidth = parseInt($("#size_field").val());
         this.contextDraft.fillStyle = this.contextReal.fillStyle = "#f44";
