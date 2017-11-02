@@ -101,11 +101,11 @@ body {
 }
 #color-label {
   margin:0 0 0 0;
-  position: fixed;
+  position: relative;
   height: 50px;
   width: 50px;
   display: inline-block;
-  right: 175px;
+
 
  
 } 
@@ -127,3 +127,5 @@ body {
 #color-picker canvas:hover {
   cursor: crosshair;
 }
+
+

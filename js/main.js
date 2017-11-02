@@ -168,6 +168,7 @@ $(window).on('resize', ()=>{
     $('#print').hide();
     $('#rotate-slider-bar').hide();
     $('#text-input').hide();
+    
 
     //Set the size for the canvas
     let canvas_width = ($(window).width()-controlboardWidth)*canvasCoverage;
