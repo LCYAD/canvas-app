@@ -42,14 +42,17 @@ class EEdge extends PaintFunction{
         // for (var i = 0; i < dist; i++) {
         //     let x = this.lastPoint.x + (Math.sin(angle) * i);
         //     let y = this.lastPoint.y + (Math.cos(angle) * i);
-                    
+        
+        this.BrushSizeX =  parseInt($("#size_field").val())+10
+        this.BrushSizeY =  parseInt($("#size_field").val())+25
+        
         for (var i = 0; i < dist; i++) {
             let x = this.lastPoint.x  + (Math.sin(angle) * i);
             let y = this.lastPoint.y  + (Math.cos(angle) * i);            
             // this.context.scale(2,2);
             // this.context.drawImage(eNibHead,x ,y, 20, 50);
             //drawImage(image, dx, dy, dw, dh) dw dh = [pen size]
-            rotateAndPaintImage(this.context,eNibHead, 45, x, y, 20, 30, 50, 80 );
+            rotateAndPaintImage(this.context,eNibHead, 45, x, y, 20, 30, this.BrushSizeX, this.BrushSizeY);
             //rotateAndPaintImage(context, image, angleInRad , positionX, positionY, axisX, axisY, dw, dh) dw dh = [pen size]
             //this.canvas_log.saveState();   
         }
