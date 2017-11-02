@@ -128,5 +128,20 @@ body {
   cursor: crosshair;
 }
 
+@media screen and (max-width: 767px){
+    #control-board{
+        display: none;
+    }
+    .option-box{
+        padding: 0px 0px 0px 0px;
+        margin-left: 0px;
+        background: rgb(110, 224, 255);
+        height: 120px;
+        display: none;
+    }
+    #function-key{
+        display: none;
+    }
 
+}
 

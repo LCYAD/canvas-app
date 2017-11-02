@@ -24,8 +24,9 @@
 
 
 </div>
+<div class="col-lg-12 mobile-button btn-default" id="function-key" style="display:none"><i class="fa fa-cogs" aria-hidden="true"></i></div>
+
     <div class="container-fluid" id="control-board"> <!--Try to put all the control stuff inside here -->
-        <div class="mobile-button" id="function-key" style="display:none"><i class="fa fa-cogs" aria-hidden="true"></i></div>
         <div class="col-lg-12 btn-default" id="brush-button">Brush</div>
     <div class="col-lg-12" id="brush-icons" style="display:none">
             <div class="col-lg-4 fa fa-paint-brush btn btn-default" id="drawing-line-smooth" aria-hidden="true"></div>
@@ -49,17 +50,17 @@
             <i class="fa fa-circle btn btn-default" id="drawing-ellipse" aria-hidden="true"></i>
         </div>
     <div class="container-fluid">    
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 btn-default" id="insert-text"><i class="fa fa-header" aria-hidden="true"></i></div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 btn-default" id="eraser"><i class="fa fa-eraser" aria-hidden="true"></i></div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-default" id="insert-text"><i class="fa fa-header" aria-hidden="true"></i></div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-default" id="eraser"><i class="fa fa-eraser" aria-hidden="true"></i></div>
 
-    <div class="col-lg-6  col-md-6 col-sm-12 col-xs-12 btn-default" id="undo"><i class="fa fa-undo" aria-hidden="true"></i></div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 btn-default" id="redo"><i class="fa fa-repeat" aria-hidden="true"></i></div>
+    <div class="col-lg-6  col-md-6 col-sm-6 col-xs-12 btn-default" id="undo"><i class="fa fa-undo" aria-hidden="true"></i></div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-default" id="redo"><i class="fa fa-repeat" aria-hidden="true"></i></div>
     
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 btn-default" id="">FIll</div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 btn-default" id="">None</div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-default" id="">FIll</div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-default" id="">None</div>
 
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 btn-default" id="">BORDER</div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 btn-default" id="">none</div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-default" id="">BORDER</div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 btn-default" id="">none</div>
     </div>
     <div class="col-lg-12 btn-default" id="clear"><i class="fa fa-trash btn btn-default" aria-hidden="true"></i></div>  
     <div class="col-lg-12 btn-default" id="cancel"><i class="fa fa-times btn btn-default" aria-hidden="true"></i></div>
@@ -107,16 +108,16 @@
             <br>
             <span>Size : </span><span id="rotate_field" value="0">0</span><span>degree</span>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="font-size-slider-bar" style="display:none">
-            <div id="font-size-slider"></div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="imagebrush-rotation-slider-bar" style="visibility:hidden">
+            <div id="imagebrush-rotation-slider"></div>
             <br>
-            <span>Font-Size : </span><span id="font-size_field" value="18">18</span><span>px</span>
+            <span>Font-degree : </span><span id="image_degree_field" value="0">0</span>
         </div>
 
         <!-- color picker -->
         <div class="picker" class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <label for="color-input" id="color-label" style="background-color: red"></label>
-        <input type="checkbox" id="color-input" unchecked></input></div>
+        <input type="checkbox" id="color-input" unchecked>
         
         <div id="color-picker" >
           <canvas id="color-block" height="100" width="100"></canvas>
@@ -147,6 +148,7 @@
     <script type='text/javascript' src="color-picker.js"></script> 
     <script type="text/javascript">
     $( document ).ready(function() {
+
         $('#brush-button').click(function(){
             $('#brush-icons').toggle();
         });
@@ -158,21 +160,13 @@
         });
         
         $('#color-label').click(function(){
-            $('#color-input').prop('checked',false);
-            $('#color-picker').toggle();
-        });
-
+            $('#color-input').prop(unchecked,false);
+            $('#color-picker').toggle();	
+	
 });
-        $(window).resize(function(){
-	if ($(window).width() <= 800 px){
-        $('#function-button').show();
 
-		
-	}	
-}); 
-    
+    }); 
     </script>
     
 </body>
 </html>
-    

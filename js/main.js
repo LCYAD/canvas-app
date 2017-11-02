@@ -64,6 +64,25 @@ $(window).on('load', function(){
             $("#rotate_field").val(ui.value);
             currentFunction.onRotate(ui.value);
         }
+
+        
+    });
+
+    $('#font-size-slider').slider({
+        orientation: "horizontal",
+        range: false,
+        min: 0,
+        max: 359,
+        value: 0,
+        step: 15,
+        animate: true,
+        slide: function(event, ui){
+            $("#font_degree_field").text(ui.value);
+            $("#font_degree_field").val(ui.value);
+            currentFunction.onRotate(ui.value);
+        }
+
+        
     });
 
     //drawing function
