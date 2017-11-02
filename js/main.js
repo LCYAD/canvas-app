@@ -10,6 +10,7 @@ $(window).on('load', function(){
     $('#print').hide();
     $('#rotate-slider-bar').hide();
     $('#text-input').draggable().hide();
+    $('#imagebrush-rotation-slider-bar').hide();
 
     //Set the size for the canvas
     let canvas_width = ($(window).width()-controlboardWidth)*canvasCoverage;
@@ -68,7 +69,7 @@ $(window).on('load', function(){
         
     });
 
-    $('#font-size-slider').slider({
+    $('#imagebrush-rotation-slider').slider({
         orientation: "horizontal",
         range: false,
         min: 0,
@@ -77,8 +78,8 @@ $(window).on('load', function(){
         step: 15,
         animate: true,
         slide: function(event, ui){
-            $("#font_degree_field").text(ui.value);
-            $("#font_degree_field").val(ui.value);
+            $("#image_degree_field").text(ui.value);
+            $("#image_degree_field").val(ui.value);
             currentFunction.onRotate(ui.value);
         }
 
